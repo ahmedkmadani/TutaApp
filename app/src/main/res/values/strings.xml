@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Tuta</string>
+
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Lorem ipsum.</string>
+    <string name="slide_1_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="slide_2_title">Lorem ipsum.</string>
+    <string name="slide_2_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="slide_3_title">Lorem ipsum.</string>
+    <string name="slide_3_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="slide_4_title">Lorem ipsum.</string>
+    <string name="slide_4_desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</string>
+
+    <string name="facebook_app_id">382846332356344</string>
+    <string name="fb_login_protocol_scheme">fb382846332356344</string>
+</resources>
