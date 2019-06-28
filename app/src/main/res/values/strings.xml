@@ -19,4 +19,5 @@
 
     <string name="facebook_app_id">382846332356344</string>
     <string name="fb_login_protocol_scheme">fb382846332356344</string>
+    <string name="title_activity_location_fragment">Map</string>
 </resources>

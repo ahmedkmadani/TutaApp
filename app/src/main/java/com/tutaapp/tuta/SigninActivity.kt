@@ -82,9 +82,9 @@ class SigninActivity: AppCompatActivity() {
 
 
     private fun Sigin() {
-        if (!validate()) {
-            return
-        }
+//        if (!validate()) {
+//            return
+//        }
 
         onSiginSuccess()
     }
