@@ -1,20 +1,17 @@
 package com.tutaapp.tuta
 
 import android.content.Intent
-import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
-import androidx.viewpager.widget.PagerAdapter
-import androidx.viewpager.widget.ViewPager
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.viewpager.widget.PagerAdapter
+import androidx.viewpager.widget.ViewPager
 import kotlinx.android.synthetic.main.activity_welcome.view.*
 
 class WelcomeActivity : AppCompatActivity() {
@@ -97,7 +94,7 @@ class WelcomeActivity : AppCompatActivity() {
 
     private fun applicationStartup() {
         prefManager!!.isFirstTimeLaunch = false
-        startActivity(Intent(this@WelcomeActivity, SigninActivity::class.java))
+        startActivity(Intent(this@WelcomeActivity, MapsActivity::class.java))
         finish()
     }
 

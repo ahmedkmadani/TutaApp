@@ -5,10 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import java.util.ArrayList
+import java.util.*
 
 
-class CustomAdapter (val trucksList: ArrayList<Trucks>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
+class CustomAdapter (private val trucksList: ArrayList<Trucks>) : RecyclerView.Adapter<CustomAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(p0: ViewGroup, p1: Int): ViewHolder {
         val v = LayoutInflater.from(p0?.context).inflate(R.layout.recyecler_item, p0, false)
@@ -18,6 +18,8 @@ class CustomAdapter (val trucksList: ArrayList<Trucks>) : RecyclerView.Adapter<C
     override fun getItemCount(): Int {
         return trucksList.size
     }
+
+
 
     override fun onBindViewHolder(p0: ViewHolder, p1: Int) {
         val truck: Trucks = trucksList[p1]

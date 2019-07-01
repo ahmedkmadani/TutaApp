@@ -32,8 +32,8 @@
                 android:value="@string/google_maps_key"/>
 
         <activity
-                android:name=".LocationFragment"
-                android:label="@string/title_activity_location_fragment">
+                android:name=".MapsActivity"
+                android:label="@string/title_activity_maps">
         </activity>
         <activity android:name=".WelcomeActivity">
             <intent-filter>
