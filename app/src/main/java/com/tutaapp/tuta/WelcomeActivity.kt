@@ -64,23 +64,22 @@ class WelcomeActivity : AppCompatActivity() {
             }
         }
 
-//        SetTransperantStatusBar()
     }
 
     private fun makeIIntroBullets(currentPage: Int) {
         var arraySize = introSliderLayouts!!.size
-        introBullets = Array<TextView>(arraySize) { textboxInit() }
+        introBullets = Array(arraySize) { textboxInit() }
         val colorsActive = resources.getIntArray(R.array.array_dot_active)
         val colorsInactive = resources.getIntArray(R.array.array_dot_inactive)
         introBulletsLayout!!.removeAllViews()
         for (i in 0 until introBullets!!.size) {
             introBullets!![i] = TextView(this)
             introBullets!![i].text = Html.fromHtml("&#9679;")
-            introBullets!![i].setTextSize(15f)
+            introBullets!![i].textSize = 15f
             introBullets!![i].setTextColor(colorsInactive[currentPage])
             introBulletsLayout!!.addView(introBullets!![i])
         }
-        if (introBullets!!.size > 0)
+        if (introBullets!!.isNotEmpty())
             introBullets!![currentPage].setTextColor(colorsActive[currentPage])
     }
 
@@ -89,12 +88,12 @@ class WelcomeActivity : AppCompatActivity() {
     }
 
     private fun getItem(i: Int): Int {
-        return introViewPager!!.getCurrentItem() + i
+        return introViewPager!!.currentItem + i
     }
 
     private fun applicationStartup() {
         prefManager!!.isFirstTimeLaunch = false
-        startActivity(Intent(this@WelcomeActivity, MapsActivity::class.java))
+        startActivity(Intent(this@WelcomeActivity, SigninActivity::class.java))
         finish()
     }
 
@@ -103,11 +102,11 @@ class WelcomeActivity : AppCompatActivity() {
             makeIIntroBullets(position)
 
             if (position == introSliderLayouts!!.size - 1) {
-                btnNext!!.setText(getString(R.string.start))
-                btnSkip!!.setVisibility(View.GONE)
+                btnNext!!.text = getString(R.string.start)
+                btnSkip!!.visibility = View.GONE
             } else {
-                btnNext!!.setText(getString(R.string.next))
-                btnSkip!!.setVisibility(View.VISIBLE)
+                btnNext!!.text = getString(R.string.next)
+                btnSkip!!.visibility = View.VISIBLE
             }
         }
         override fun onPageScrolled(arg0: Int, arg1: Float, arg2: Int) {
@@ -118,13 +117,6 @@ class WelcomeActivity : AppCompatActivity() {
         }
     }
 
-//    private fun SetTransperantStatusBar() {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            val window = window
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
-//            window.statusBarColor = Color.TRANSPARENT
-//        }
-//    }
 
     inner class IntroScreenViewPagerAdapter : PagerAdapter() {
         override fun instantiateItem(container: ViewGroup, position: Int): Any {

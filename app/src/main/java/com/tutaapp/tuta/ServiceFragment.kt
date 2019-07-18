@@ -23,7 +23,7 @@ class ServiceFragment : Fragment() {
         users.add(Trucks("3 Ton Truck", "Medium appliance", "Heavy loading", "Extra help"))
         users.add(Trucks("5 Ton Truck", "Heavy appliance", "Bulk loading", "More manpower"))
 
-        val adapter = CustomAdapter(users)
+        val adapter = TrucksAdapter(users)
 
         recyclerview.adapter = adapter
 

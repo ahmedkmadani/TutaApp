@@ -23,4 +23,10 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+
+    <style name="BottomSheetEditText" parent="TextAppearance.Design.Tab">
+        <item name="colorControlNormal">#444</item>
+        <item name="colorControlActivated">#444</item>
+    </style>
+
 </resources>
