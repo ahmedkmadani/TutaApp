@@ -6,6 +6,8 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -24,13 +26,6 @@ import java.io.IOException
 
 
 
-
-
-
-
-
-
-
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
@@ -45,7 +40,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
-
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
@@ -84,28 +78,44 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         map.isMyLocationEnabled = true
 
-// 2
         fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
 
             if (location != null) {
                 lastLocation = location
                 val currentLatLng = LatLng(location.latitude, location.longitude)
                 map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-                placeMarkerOnMap(currentLatLng)
-                showBottomSheetDialog()
+                map.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
+                showBottomSheetDialog(currentLatLng)
             }
         }
     }
 
 
-    private fun showBottomSheetDialog() {
+    private fun showBottomSheetDialog(location: LatLng) {
         val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
         val dialog = BottomSheetDialog(this)
 
         dialog.setContentView(view)
         dialog.show()
 
+        val btn_drop = view.findViewById(R.id.btn_drop) as Button
+        val txt_pickup = view.findViewById(R.id.txt_pickup) as TextView
+
+        val usr_address = getAddress(location)
+        txt_pickup.text = usr_address
+
+        map!!.setOnMarkerClickListener { marker ->
+            dialog.show()
+            false
+        }
+
+        btn_drop.setOnClickListener {
+            Toast.makeText(applicationContext, usr_address, Toast.LENGTH_SHORT)
+                .show()
+        }
+
     }
+
 
 
 
@@ -120,7 +130,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
     private fun getAddress(latLng: LatLng): String {
-        // 1
         val geocoder = Geocoder(this)
         val addresses: List<Address>?
         val address: Address?
