@@ -24,7 +24,7 @@
             android:id="@+id/txt_pickup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           />
+    />
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -43,11 +43,10 @@
             android:textColor="#444"
             android:textStyle="bold"/>
 
-    <AutoCompleteTextView
+    <TextView
             android:id="@+id/edit_drop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            style="@style/BottomSheetEditText"
     />
 
 
@@ -55,13 +54,22 @@
 
 
     <Button
-            android:id="@+id/btn_drop"
+            android:id="@+id/btn_order"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="#000"
             android:foreground="?attr/selectableItemBackground"
-            android:text="NEXT"
+            android:text="Order"
             android:textColor="#fff"/>
 
+    <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="#000"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Cancl"
+            android:textColor="#fff"/>
 </LinearLayout>
