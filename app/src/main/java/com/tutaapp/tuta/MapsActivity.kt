@@ -11,7 +11,6 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -201,8 +200,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         btn_order.setOnClickListener {
 
-            Toast.makeText(applicationContext, " Ordering", Toast.LENGTH_SHORT)
-                .show()
+            dialog.dismiss()
+            showOrderSheet()
 
         }
 
@@ -222,6 +221,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //            .show()
 //
 //    }
+
+    private fun showOrderSheet() {
+
+        val view = layoutInflater.inflate(R.layout.bottom_sheet_order, null)
+        val dialog = BottomSheetDialog(this)
+        dialog.setContentView(view)
+        dialog.show()
+
+
+    }
+
 
 
 
