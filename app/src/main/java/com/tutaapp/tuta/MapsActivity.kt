@@ -113,8 +113,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         dialog.setContentView(view)
         dialog.show()
 
-        val usr_address = getAddress(location)
-        txt_pickup.text = usr_address
+        val usr_pickup_loc = getAddress(location)
+        Log.e("usr loc" , usr_pickup_loc)
+        txt_pickup.text = usr_pickup_loc
 
         map!!.setOnMarkerClickListener {
             dialog.show()
@@ -128,7 +129,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             map.addMarker(MarkerOptions().position(desLatLng ).title("Distention Location"))
 
             dialog.dismiss()
-            showDetentionSheet()
+            showDetentionSheet(usr_pickup_loc)
 
         }
 
@@ -185,7 +186,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
 
-    private fun showDetentionSheet() {
+    private fun showDetentionSheet(usr_pickup_loc: String) {
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet_des, null)
         val dialog = BottomSheetDialog(this)
@@ -193,13 +194,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         val btn_order = view.findViewById(R.id.btn_order) as Button
         val btn_cancel = view.findViewById(R.id.btn_cancel) as Button
 
+        val txt_pickup = view.findViewById(R.id.txt_pickup) as TextView
+        txt_pickup.text = usr_pickup_loc
+
         dialog.setContentView(view)
         dialog.show()
 
         btn_order.setOnClickListener {
 
             dialog.dismiss()
-            showOrderSheet()
+            showOrderSheet(usr_pickup_loc)
 
         }
 
@@ -220,13 +224,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 //
 //    }
 
-    private fun showOrderSheet() {
+    private fun showOrderSheet(usr_pickup_loc: String) {
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet_order, null)
         val dialog = BottomSheetDialog(this)
 
         val btn_confirm_order = view.findViewById(R.id.btn_confrim_order) as Button
         val btn_back = view.findViewById(R.id.btn_back) as Button
+
+        val txt_pickup = view.findViewById(R.id.txt_pick) as TextView
+        txt_pickup.text = usr_pickup_loc
 
         dialog.setContentView(view)
         dialog.show()
@@ -237,7 +244,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         btn_back.setOnClickListener {
             dialog.dismiss()
-            showDetentionSheet()
+            showDetentionSheet(usr_pickup_loc)
         }
 
 
@@ -246,7 +253,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
 
 
-    private fun getAddress(latLng: LatLng): String {
+    private fun getAddress(location: LatLng): String {
         val geocoder = Geocoder(this)
         val addresses: List<Address>?
         val address: Address?
@@ -254,13 +261,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         try {
 
-            addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1)
-
+            addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
             if (null != addresses && !addresses.isEmpty()) {
-                address = addresses[0]
-                for (i in 0 until address.maxAddressLineIndex) {
-                    addressText += if (i == 0) address.getAddressLine(i) else "\n" + address.getAddressLine(i)
-                }
+
+                 addressText = addresses[0].getAddressLine(0)
+                Log.e("Res : ", addressText)
+
             }
         } catch (e: IOException) {
             Log.e("MapsActivity", e.localizedMessage)
@@ -268,6 +274,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         return addressText
     }
+
+
+
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1

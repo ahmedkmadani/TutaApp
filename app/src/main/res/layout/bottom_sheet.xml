@@ -37,7 +37,6 @@
                 android:gravity="center"
                 android:layout_marginRight="5dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="Lorum Ipsam Lourm Ipsam"
                 android:textColor="#6F6C6C"/>
 
     </LinearLayout>
