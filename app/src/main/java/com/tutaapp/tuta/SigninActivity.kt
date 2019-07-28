@@ -88,7 +88,6 @@ class SigninActivity: AppCompatActivity() {
 //        }
 
 
-        btn_login.isEnabled = false
 
         val progressDialog = ProgressDialog(
             this@SigninActivity
@@ -111,8 +110,6 @@ class SigninActivity: AppCompatActivity() {
 }
 
     private fun onSiginSuccess() {
-
-        btn_login.isEnabled
         Toast.makeText(this@SigninActivity, "Signin Successfully", Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
 

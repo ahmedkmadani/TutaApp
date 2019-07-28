@@ -30,7 +30,6 @@ class SignupActivity : AppCompatActivity() {
 //            return
 //        }
 
-        btn_sigin.isEnabled = false
 
         val progressDialog = ProgressDialog(
             this@SignupActivity
@@ -52,7 +51,6 @@ class SignupActivity : AppCompatActivity() {
 
     private fun onSiginSuccess() {
 
-        btn_sigin.isEnabled
         Toast.makeText(this@SignupActivity, "SignUp Successfully", Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
     }

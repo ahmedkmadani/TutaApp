@@ -12,45 +12,34 @@
               app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
 
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Pick Up Address"
-            android:textColor="#444"
-            android:textStyle="bold"/>
-
-    <TextView
-            android:id="@+id/txt_pickup"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-    />
-
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:background="#9e9e9e"
-            android:layout_gravity="center_vertical"
-            android:weightSum="30"/>
-
-    <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Drop off Address"
-            android:textColor="#444"
-            android:textStyle="bold"/>
-
-    <TextView
-            android:id="@+id/edit_drop"
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
-    />
+            android:orientation="horizontal">
 
 
-    />
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#E91E63"
+                app:srcCompat="@drawable/ic_circle_medium"/>
+
+        <TextView
+                android:id="@+id/txt_pick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="Lorum Ipsam Lourm Ipsam"
+                android:textColor="#6F6C6C"/>
+
+    </LinearLayout>
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -66,6 +55,57 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#009688"
+                app:srcCompat="@drawable/ic_circle_medium"/>
+
+        <TextView
+                android:id="@+id/txt_drop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center"
+                android:layout_marginRight="5dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:text="Lorum Ipsam Lourm Ipsam"
+                android:textColor="#6F6C6C"/>
+
+    </LinearLayout>
+
+    />
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:background="#9e9e9e"
+            android:layout_gravity="center_vertical"
+            android:weightSum="3"/>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#A3A0A0"
+                app:srcCompat="@drawable/ic_account_card_details_outline"/>
+
         <TextView
                 android:id="@+id/txtCarNo"
                 android:layout_width="match_parent"
@@ -76,7 +116,17 @@
                 android:layout_marginRight="4dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="R780"
-                android:textColor="#bdbdbd"/>
+                android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#A3A0A0"
+                app:srcCompat="@drawable/ic_account_circle_outline"/>
 
         <TextView
                 android:id="@+id/txtNolabour"
@@ -84,11 +134,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="1"
-                android:textColor="#bdbdbd"/>
+                android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#A3A0A0"
+                app:srcCompat="@drawable/ic_credit_card"/>
 
         <TextView
                 android:id="@+id/txtTripPrice"
@@ -100,7 +160,7 @@
                 android:layout_weight="1"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="20 RAND"
-                android:textColor="#bdbdbd"/>
+                android:textColor="#6F6C6C"/>
 
 
     </LinearLayout>
@@ -119,6 +179,16 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#A3A0A0"
+                app:srcCompat="@drawable/ic_clock_outline"/>
+
         <TextView
                 android:id="@+id/txtTimeOrder"
                 android:layout_width="match_parent"
@@ -129,7 +199,17 @@
                 android:layout_marginRight="4dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="5 mints"
-                android:textColor="#bdbdbd"/>
+                android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:tint="#A3A0A0"
+                app:srcCompat="@drawable/ic_truck_fast"/>
 
         <TextView
                 android:id="@+id/txtTruckType"
@@ -141,7 +221,7 @@
                 android:gravity="center"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="5TON TRUCK"
-                android:textColor="#bdbdbd"/>
+                android:textColor="#6F6C6C"/>
 
 
     </LinearLayout>
