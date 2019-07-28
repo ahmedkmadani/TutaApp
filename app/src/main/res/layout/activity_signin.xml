@@ -6,6 +6,7 @@
             android:fitsSystemWindows="true"
             android:background="#5758BB" android:id="@+id/scrollView2">
 
+
     <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -14,6 +15,7 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
             android:id="@+id/linearLayout">
+
 
         <!--<ImageView android:src="@drawable/ic_launcher_background"-->
         <!--android:layout_width="wrap_content"-->

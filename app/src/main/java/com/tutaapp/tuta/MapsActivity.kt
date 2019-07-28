@@ -226,8 +226,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet_order, null)
         val dialog = BottomSheetDialog(this)
+
+        val btn_confirm_order = view.findViewById(R.id.btn_confrim_order) as Button
+        val btn_back = view.findViewById(R.id.btn_back) as Button
+
         dialog.setContentView(view)
         dialog.show()
+
+        btn_confirm_order.setOnClickListener {
+
+        }
+
+        btn_back.setOnClickListener {
+            dialog.dismiss()
+            showDetentionSheet()
+        }
 
 
     }

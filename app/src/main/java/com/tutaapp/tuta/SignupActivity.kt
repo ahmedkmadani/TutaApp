@@ -1,10 +1,11 @@
 package com.tutaapp.tuta
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_signup.*
 
 
@@ -25,13 +26,33 @@ class SignupActivity : AppCompatActivity() {
     }
 
     private fun Signup() {
-        if (!validate()) {
-            return
-        }
-        onSiginSuccess()
+//        if (!validate()) {
+//            return
+//        }
+
+        btn_sigin.isEnabled = false
+
+        val progressDialog = ProgressDialog(
+            this@SignupActivity
+        )
+
+        progressDialog.isIndeterminate = true
+        progressDialog.setMessage("Authenticating....")
+        progressDialog.show()
+
+        android.os.Handler().postDelayed(
+            {
+                // On complete call either onLoginSuccess or onLoginFailed
+                onSiginSuccess()
+                // onLoginFailed();
+                progressDialog.dismiss()
+            }, 3000
+        )
     }
 
     private fun onSiginSuccess() {
+
+        btn_sigin.isEnabled
         Toast.makeText(this@SignupActivity, "SignUp Successfully", Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
     }

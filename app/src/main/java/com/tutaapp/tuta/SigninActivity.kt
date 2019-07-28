@@ -1,21 +1,21 @@
 package com.tutaapp.tuta
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
+import com.facebook.GraphRequest
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import kotlinx.android.synthetic.main.activity_signin.*
 import java.util.*
-import com.facebook.GraphResponse
-import org.json.JSONObject
-import com.facebook.GraphRequest
+import android.opengl.Visibility as Visibility1
+
 
 
 
@@ -24,6 +24,7 @@ class SigninActivity: AppCompatActivity() {
     private var callbackManager: CallbackManager? = null
     val EMAIL = "email"
     val PUBLIC_PROFILE = "public_profile"
+
     val USER_PERMISSION = "user_friends"
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,14 +71,14 @@ class SigninActivity: AppCompatActivity() {
         }
 
 
-        btn_login.setOnClickListener(View.OnClickListener {
+        btn_login.setOnClickListener {
             Sigin()
-        })
+        }
 
-        link_signup.setOnClickListener(View.OnClickListener {
+        link_signup.setOnClickListener {
             startActivity(Intent(this@SigninActivity, SignupActivity::class.java))
             finish()
-        })
+        }
     }
 
 
@@ -86,13 +87,37 @@ class SigninActivity: AppCompatActivity() {
 //            return
 //        }
 
-        onSiginSuccess()
-    }
+
+        btn_login.isEnabled = false
+
+        val progressDialog = ProgressDialog(
+            this@SigninActivity
+        )
+
+        progressDialog.isIndeterminate = true
+        progressDialog.setMessage("Authenticating....")
+        progressDialog.show()
+
+        android.os.Handler().postDelayed(
+            {
+                // On complete call either onLoginSuccess or onLoginFailed
+                onSiginSuccess()
+                // onLoginFailed();
+                progressDialog.dismiss()
+            }, 3000
+        )
+
+
+}
 
     private fun onSiginSuccess() {
+
+        btn_login.isEnabled
         Toast.makeText(this@SigninActivity, "Signin Successfully", Toast.LENGTH_LONG).show()
         startActivity(Intent(this, MainActivity::class.java))
+
     }
+
 
     fun validate(): Boolean {
         var valid = true
