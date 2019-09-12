@@ -7,10 +7,12 @@ import android.location.Geocoder
 import android.location.Location
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -240,6 +242,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         btn_confirm_order.setOnClickListener {
 
+            ShowConifrmdailog()
+
         }
 
         btn_back.setOnClickListener {
@@ -250,7 +254,15 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
+    private fun ShowConifrmdailog() {
 
+
+        val cDialogView = LayoutInflater.from(this).inflate(R.layout.confirm_order_dailog, null)
+        val mBuilder = AlertDialog.Builder(this).setView(cDialogView)
+
+        val mAlertDialog = mBuilder.show()
+
+    }
 
 
     private fun getAddress(location: LatLng): String {
