@@ -67,12 +67,22 @@
                 android:tint="#009688"
                 app:srcCompat="@drawable/ic_circle_medium"/>
 
+        <!--<AutoCompleteTextView-->
+                <!--android:id="@+id/edit_drop"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:text="kjikjdijdisjdsaid  jdiajdisadj"-->
+                <!--style="@style/BottomSheetEditText" />-->
+
         <AutoCompleteTextView
                 android:id="@+id/edit_drop"
+                android:layout_width="329dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                style="@style/BottomSheetEditText" />
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="5dp"
+                android:foreground="?attr/selectableItemBackground"
+                android:textColor="#6F6C6C"/>
 
     </LinearLayout>
 

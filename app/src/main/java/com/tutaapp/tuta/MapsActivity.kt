@@ -9,7 +9,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
-import android.widget.AutoCompleteTextView
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -110,7 +109,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         val btn_drop = view.findViewById(R.id.btn_drop) as Button
         val txt_pickup = view.findViewById(R.id.txt_pickup) as TextView
-        val edit_drop = view.findViewById(R.id.edit_drop) as AutoCompleteTextView
+//        val edit_drop = view.findViewById(R.id.edit_drop) as AutoCompleteTextView
 
         dialog.setContentView(view)
         dialog.show()
@@ -134,55 +133,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             showDetentionSheet(usr_pickup_loc)
 
         }
-
-//        placesAdapter = PlacesAdapter(this, android.R.layout.simple_list_item_1, mGeoDataClient, null, BOUNDS_INDIA)
-//        edit_drop.setAdapter(placesAdapter)
-//
-//        edit_drop.addTextChangedListener(object : TextWatcher {
-//            override fun afterTextChanged(s: Editable?) {
-//            }
-//
-//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-//            }
-//
-//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-//                if (count > 0) {
-////                    cancel.visibility = View.VISIBLE
-//                } else {
-////                    cancel.visibility = View.GONE
-//                }
-//            }
-//        })
-//
-//
-//        edit_drop.setOnItemClickListener { parent, view, position, id ->
-//            //getLatLong(placesAdapter.getPlace(position))
-//            hideKeyboard()
-//            val item = placesAdapter.getItem(position)
-//            val placeId = item?.getPlaceId()
-//            val primaryText = item?.getPrimaryText(null)
-//
-//            Log.i("Autocomplete", "Autocomplete item selected: " + primaryText)
-//
-//
-//            val placeResult = mGeoDataClient.getPlaceById(placeId)
-//            placeResult.addOnCompleteListener { task ->
-//                val places = task.result
-//                val place = places!!.get(0)
-//
-//                isAutoCompleteLocation = true
-//
-//                places!!.release()
-//            }
-//
-//            Toast.makeText(
-//                applicationContext, "Clicked: " + primaryText,
-//                Toast.LENGTH_SHORT
-//            ).show()
-//        }
-////        cancel.setOnClickListener {
-////            enter_place.setText("")
-////        }
 
 
     }
