@@ -1,25 +1,107 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity"
+      >
 
+    <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
 
-    <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerview"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/circul">
 
-    </androidx.recyclerview.widget.RecyclerView>
+            <TextView
+                    android:id="@+id/welcome"
+                    android:layout_width="123dp"
+                    android:layout_height="26dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginStart="19dp"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="229dp"
+                    android:layout_marginRight="229dp"
+                    android:text="Tuta App"
+                    android:textColor="@android:color/white"
+                    android:textSize="22sp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            </TextView>
+
+            <TextView
+                    android:id="@+id/UserName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/welcome"
+                    android:layout_marginStart="19dp"
+                    android:layout_marginLeft="19dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_marginRight="229dp"
+                    android:text="Hello  Ahmed !!"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp">
+
+            </TextView>
+
+            <com.airbnb.lottie.LottieAnimationView
+                    android:layout_width="130dp"
+                    android:layout_height="130dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginStart="232dp"
+                    android:layout_marginLeft="232dp"
+                    android:layout_marginTop="9dp"
+                    android:layout_marginEnd="37dp"
+                    android:layout_marginRight="37dp"
+                    android:layout_marginBottom="39dp"
+                    app:lottie_autoPlay="true"
+                    app:lottie_fileName="gift.json"
+                    app:lottie_loop="true">
+
+            </com.airbnb.lottie.LottieAnimationView>
+        </RelativeLayout>
+
+        <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:columnCount="1"
+                android:columnOrderPreserved="false"
+                android:rowCount="3">
+
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_row="0"
+                    android:layout_rowWeight="1"
+                    android:layout_column="0"
+                    android:layout_columnWeight="1"
+                    android:layout_margin="12dp"
+                    app:cardCornerRadius="12dp"
+                    app:cardElevation="6dp"
+                    tools:targetApi="lollipop">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </GridLayout>
+
+    </LinearLayout>
+
+</ScrollView>
+

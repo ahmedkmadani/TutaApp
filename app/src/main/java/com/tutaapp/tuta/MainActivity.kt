@@ -2,6 +2,7 @@ package com.tutaapp.tuta
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,12 +16,21 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     internal lateinit var viewDialog: ViewDialog
+    internal lateinit var user: User
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         viewDialog = ViewDialog(this)
+
+        val user = SharedPrefManager.getInstance(this).user
+
+        val FirstName  = user.FirstName
+        val LastName = user.LastName
+
+        UserName.text = "Hello $FirstName $LastName !!!"
 
         val truck = ArrayList<Trucks>()
         val adapter = TrucksAdapter(truck)
@@ -42,7 +52,6 @@ class MainActivity : AppCompatActivity() {
                 recyclerview!!,
                 object : RecyclerTouchListener.ClickListener {
                     override fun onLongClick(view: View?, position: Int) {
-                        TODO("not implemented")
                         val truck = truck.get(position)
                         Toast.makeText(applicationContext, truck.truckload + " is selected!", Toast.LENGTH_SHORT)
                             .show()
