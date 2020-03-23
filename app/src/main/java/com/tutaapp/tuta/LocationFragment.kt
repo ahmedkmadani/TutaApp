@@ -26,7 +26,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
         var rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
-        mapFragment = childFragmentManager?.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@)

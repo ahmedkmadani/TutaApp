@@ -53,11 +53,9 @@ class WelcomeActivity : AppCompatActivity() {
         introViewPager!!.addOnPageChangeListener(introViewPagerListener)
         (btnSkip as View?)!!.setOnClickListener { applicationStartup() }
         (btnNext as View?)!!.setOnClickListener {
-            // checking for last page
-            // if last page home screen will be launched
+
             val current = getItem(+1)
             if (current < introSliderLayouts!!.size) {
-                // move to next screen
                 introViewPager!!.currentItem = current
             } else {
                 applicationStartup()

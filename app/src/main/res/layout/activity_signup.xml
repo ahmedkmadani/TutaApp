@@ -27,11 +27,13 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:textColorHint="@android:color/white">
-            <EditText android:id="@+id/input_name"
+            <EditText android:id="@+id/input_fname"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:inputType="text"
-                      android:hint="Name"/>
+                      android:textColor="@android:color/white"
+                      android:inputType="textPersonName"
+                      android:hint="@string/first_name"
+                      android:autofillHints="" tools:targetApi="o" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -40,12 +42,29 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:textColorHint="@android:color/white">
-            <EditText android:id="@+id/input_phone"
+            <EditText android:id="@+id/input_lname"
                       android:layout_width="match_parent"
                       android:layout_height="wrap_content"
-                      android:inputType="textPhonetic"
+                      android:inputType="textPersonName"
                       android:textColor="@android:color/white"
-                      android:hint="Phone Number"/>
+                      android:hint="@string/last_namer"
+                    android:autofillHints="" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textColorHint="@android:color/white">
+            <EditText android:id="@+id/input_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@android:color/white"
+                    android:hint="@string/email"
+                    android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +78,8 @@
                       android:layout_height="wrap_content"
                       android:inputType="textPassword"
                       android:textColor="@android:color/white"
-                      android:hint="Password"/>
+                      android:hint="@string/password"
+                    android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -74,7 +94,8 @@
                       android:layout_height="wrap_content"
                       android:inputType="textPassword"
                       android:textColor="@android:color/white"
-                      android:hint="Renter Password"/>
+                      android:hint="@string/renter_password"
+                    android:autofillHints="" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.appcompat.widget.AppCompatButton
@@ -86,16 +107,16 @@
                 android:padding="12dp"
                 android:background="@drawable/round_corner"
                 android:textColor="@android:color/white"
-                android:text="Sigin Up"/>
+                android:text="@string/sigin_up"/>
 
 
         <TextView android:id="@+id/link_signin"
                   android:layout_width="fill_parent"
                   android:layout_height="wrap_content"
                   android:layout_marginBottom="24dp"
-                  android:text="Already have account? Login"
+                  android:text="@string/already_have_account_login"
                   android:gravity="center"
-                  android:textSize="16dip"
+                  android:textSize="16sp"
                   android:textColor="@android:color/white"/>
 
 
