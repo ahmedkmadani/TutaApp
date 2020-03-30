@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/bottom_sheet"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="#fff"
-              android:orientation="vertical"
-              android:padding="@dimen/activity_margin"
-              app:behavior_hideable="true"
-              app:behavior_peekHeight="56dp"
-              app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
-
-
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/bottom_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:padding="@dimen/activity_margin"
+        app:behavior_hideable="true"
+        app:behavior_peekHeight="56dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
     <LinearLayout
             android:layout_width="match_parent"
@@ -22,38 +21,29 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 android:tint="#E91E63"
-                app:srcCompat="@drawable/ic_circle_medium"/>
+                app:srcCompat="@drawable/ic_circle_medium" />
 
         <TextView
-                android:id="@+id/txt_pickup"
+                android:id="@+id/user_location_pickup"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
-                android:gravity="center"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
+                android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
                 android:foreground="?attr/selectableItemBackground"
-                android:textColor="#6F6C6C"/>
+                android:gravity="center"
+                android:textColor="#6F6C6C" />
 
     </LinearLayout>
 
 
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0.5dp"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:background="#9e9e9e"
-            android:layout_gravity="center_vertical"
-            android:weightSum="3"/>
-
-
-    <LinearLayout
-            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -61,44 +51,43 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 android:tint="#009688"
-                app:srcCompat="@drawable/ic_circle_medium"/>
+                app:srcCompat="@drawable/ic_circle_medium" />
 
         <!--<AutoCompleteTextView-->
-                <!--android:id="@+id/edit_drop"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:text="kjikjdijdisjdsaid  jdiajdisadj"-->
-                <!--style="@style/BottomSheetEditText" />-->
+        <!--android:id="@+id/edit_drop"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:text="kjikjdijdisjdsaid  jdiajdisadj"-->
+        <!--style="@style/BottomSheetEditText" />-->
 
         <AutoCompleteTextView
                 android:id="@+id/edit_drop"
                 android:layout_width="329dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:textColor="#6F6C6C"/>
+                android:textColor="#6F6C6C" />
 
     </LinearLayout>
-
-
-
-    />
 
 
     <Button
             android:id="@+id/btn_drop"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="30dp"
             android:background="#000"
             android:foreground="?attr/selectableItemBackground"
             android:text="NEXT"
-            android:textColor="#fff"/>
+            android:textColor="#fff" />
 
 </LinearLayout>
+
+
+

@@ -19,9 +19,7 @@ class ServiceFragment : Fragment() {
 
         val users = ArrayList<Trucks>()
 
-        users.add(Trucks("1 Ton Truck", "Basic appliance","Quick loading", "Easy access"))
-        users.add(Trucks("3 Ton Truck", "Medium appliance", "Heavy loading", "Extra help"))
-        users.add(Trucks("5 Ton Truck", "Heavy appliance", "Bulk loading", "More manpower"))
+
 
         val adapter = TrucksAdapter(users)
 

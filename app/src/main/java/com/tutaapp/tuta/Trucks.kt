@@ -1,16 +1,30 @@
 package com.tutaapp.tuta
 
 class Trucks {
-    var truckload: String? = null
-    var truckdec1: String? = null
-    var truckdec2: String? = null
-    var truckdec3: String? = null
+    var Id: Int? = null
+    var name: String? = null
+    var description: String? = null
+    var created_at: String? = null
+    var updated_at: String? = null
+    var deleted_at: String? = null
+    var base_charge: Int? = null
+    var price_per_kilometer: Double? = null
+    var price_per_second: Double? = null
+    var average_speed: Int? = null
 
 
-    constructor(truckload: String, truckdec1: String, truckdec2: String, truckdec3: String) {
-        this.truckload = truckload
-        this.truckdec1 = truckdec1
-        this.truckdec2 = truckdec2
-        this.truckdec3 = truckdec3
+    constructor(Id: Int, name: String, description: String, created_at: String, updated_at: String, deleted_at: String, base_charge: Int, price_per_kilometer: Double
+                ,price_per_second: Double, average_speed: Int) {
+        this.Id = Id
+        this.name = name
+        this.description = description
+        this.created_at = created_at
+        this.updated_at = updated_at
+        this.deleted_at = deleted_at
+        this.base_charge = base_charge
+        this.price_per_kilometer = price_per_kilometer
+        this.price_per_second = price_per_second
+        this.average_speed = average_speed
+
     }
 }

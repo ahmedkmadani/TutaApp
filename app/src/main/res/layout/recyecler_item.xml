@@ -44,32 +44,10 @@
                     android:layout_below="@id/textLoad"
                     android:layout_marginTop="0dp"
                     android:text="Basic appliance"
+                    android:lines="3"
+                    android:maxLines="3"
                     android:layout_toRightOf="@+id/thumbnail"
                     android:textSize="@dimen/rating" android:layout_marginLeft="28dp"/>
-
-
-            <TextView
-                    android:id="@+id/textDecTwo"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textDecOne"
-                    android:layout_marginTop="4dp"
-                    android:text="Quick loading"
-                    android:layout_toRightOf="@+id/thumbnail"
-                    android:textColor="@color/genre"
-                    android:textSize="@dimen/genre" android:layout_marginLeft="28dp"/>
-
-
-            <TextView
-                    android:id="@+id/textDecThree"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textDecTwo"
-                    android:layout_marginTop="3dp"
-                    android:text="Easy access"
-                    android:layout_toRightOf="@+id/thumbnail"
-                    android:textColor="@color/genre"
-                    android:textSize="@dimen/genre" android:layout_marginLeft="28dp"/>
 
 
         </RelativeLayout>

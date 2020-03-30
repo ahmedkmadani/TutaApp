@@ -1,21 +1,32 @@
 package com.tutaapp.tuta
 
+import android.Manifest
+import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
+import android.location.LocationManager
 import android.os.Bundle
+import android.os.Looper
+import android.provider.Settings
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
+import com.android.volley.AuthFailureError
+import com.android.volley.Response
+import com.android.volley.toolbox.StringRequest
+import com.android.volley.toolbox.Volley
+import com.google.android.gms.location.*
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.Places
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,82 +36,266 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.bottom_sheet.*
+import org.json.JSONException
+import org.json.JSONObject
 import java.io.IOException
-
-
+import java.util.*
 
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private lateinit var map: GoogleMap
     private lateinit var lastLocation: Location
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     lateinit var mGeoDataClient: GeoDataClient
+
     lateinit var placesAdapter: PlacesAdapter
     var isAutoCompleteLocation = false
+
+    internal lateinit var user: User
+    internal lateinit var viewDialog: ViewDialog
+
+    private lateinit var  location: Location
+    private lateinit var mLastLocation: Location
+
+    lateinit var TRUCK_ID: String
+    lateinit var token: String
+
+    val PERMISSION_ID = 42
+    lateinit var mFusedLocationClient: FusedLocationProviderClient
+    private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+
+
+        val user = SharedPrefManager.getInstance(this).user
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mGeoDataClient = Places.getGeoDataClient(this, null);
+        sheetBehavior = BottomSheetBehavior.from<LinearLayout>(bottom_sheet)
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mGeoDataClient = Places.getGeoDataClient(this, null)
+
+        viewDialog = ViewDialog(this)
+
+        TRUCK_ID = intent.getStringExtra("TRUCK_ID")
+        token = user.token
+
+        viewDialog.showDialog()
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     override fun onMapReady(googleMap: GoogleMap) {
         map = googleMap
         map = googleMap
-        map.uiSettings.isZoomControlsEnabled = true
-        map.setOnMarkerClickListener(this)
-        map.uiSettings.isZoomControlsEnabled = true
-        map.setOnMarkerClickListener(this)
 
-        setUpMap()
+        map.uiSettings.isZoomControlsEnabled = true
+        map.setOnMarkerClickListener(this)
+        map.uiSettings.isZoomControlsEnabled = true
+
+        map.setOnMarkerClickListener(this)
+        getLastLocation()
 
     }
 
 
-    private fun setUpMap() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION), LOCATION_PERMISSION_REQUEST_CODE
-            )
-            return
+    private fun getAllTrucks(token: String, truckId: String, latitude: Double, longitude: Double) {
+
+        val currentLatLng = LatLng(latitude, longitude)
+
+        val stringRequest: StringRequest = object : StringRequest( Method.POST, URLs.URL_GET_All_TRUCKS,
+            Response.Listener { response ->
+
+                try {
+
+                    val jsonObject = JSONObject(response)
+                    Log.d("Response", "$jsonObject")
+
+                    viewDialog.hideDialog()
+                    expandCloseSheet(currentLatLng)
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    error.toString(), Snackbar.LENGTH_LONG).show()
+
+                viewDialog.hideDialog()
+
+            }) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["vehicle_type_id"] = truckId
+                params["latitude"] =  latitude.toString()
+                params["longitude"] = longitude.toString()
+                return params
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
+                headers["Content-Type"] = "application/x-www-form-urlencoded"
+                return headers
+            }
+
+        }
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(stringRequest)
+    }
+
+
+
+
+    private fun expandCloseSheet(currentLatLng: LatLng) {
+        if (sheetBehavior!!.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+
+            val user_Location = getAddress(currentLatLng)
+            user_location_pickup.text = user_Location
+
+        } else {
+            sheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+
+            val UserLocation = getAddress(currentLatLng)
+            user_location_pickup.text = UserLocation
+
         }
 
         map.isMyLocationEnabled = true
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
+        map.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
 
-        fusedLocationClient.lastLocation.addOnSuccessListener(this) { location ->
+    }
 
-            if (location != null) {
-                lastLocation = location
-                val currentLatLng = LatLng(location.latitude, location.longitude)
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-                map.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
-                showBottomSheetDialog(currentLatLng)
+
+
+    @SuppressLint("MissingPermission")
+    private fun getLastLocation() {
+        if (checkPermissions()) {
+            if (isLocationEnabled()) {
+
+                mFusedLocationClient.lastLocation.addOnCompleteListener(this) { task ->
+                    var location: Location? = task.result
+                    if (location == null) {
+                        requestNewLocationData()
+                    } else {
+                        getAllTrucks(token , TRUCK_ID , location.latitude , location.longitude )
+                    }
+                }
+            } else {
+
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    "Turn on location", Snackbar.LENGTH_LONG).show()
+                val intent = Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+                startActivity(intent)
+            }
+        } else {
+            requestPermissions()
+        }
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun requestNewLocationData() {
+        var mLocationRequest = LocationRequest()
+        mLocationRequest.priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+        mLocationRequest.interval = 0
+        mLocationRequest.fastestInterval = 0
+        mLocationRequest.numUpdates = 1
+
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        mFusedLocationClient!!.requestLocationUpdates(
+            mLocationRequest, mLocationCallback,
+            Looper.myLooper()
+        )
+    }
+
+    private val mLocationCallback = object : LocationCallback() {
+        override fun onLocationResult(locationResult: LocationResult) {
+            var mLastLocation: Location = locationResult.lastLocation
+            getAllTrucks(token, TRUCK_ID, mLastLocation.latitude, mLastLocation.longitude)
+        }
+    }
+
+    private fun isLocationEnabled(): Boolean {
+        var locationManager: LocationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(
+            LocationManager.NETWORK_PROVIDER
+        )
+    }
+
+    private fun checkPermissions(): Boolean {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(
+                this,
+                ACCESS_FINE_LOCATION
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            return true
+        }
+        return false
+    }
+
+    private fun requestPermissions() {
+        ActivityCompat.requestPermissions(
+            this,
+            arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, ACCESS_FINE_LOCATION),
+            PERMISSION_ID
+        )
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+        if (requestCode == PERMISSION_ID) {
+            if ((grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                getLastLocation()
             }
         }
     }
+
+    private fun getAddress(location: LatLng): String {
+        val geocoder = Geocoder(this)
+        val addresses: List<Address>?
+        var addressText = ""
+
+        try {
+
+            addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+            if (null != addresses && !addresses.isEmpty()) {
+
+                addressText = addresses[0].getAddressLine(0)
+                Log.d("Adress", addresses.toString())
+                Log.d("User Address : ", addressText)
+
+            }
+        } catch (e: IOException) {
+            Log.d("MapsActivity", e.localizedMessage)
+            Snackbar.make(
+                    findViewById(android.R.id.content),
+                e.localizedMessage, Snackbar.LENGTH_LONG).show()
+        }
+
+        return addressText
+    }
+
+
 
 
     private fun showBottomSheetDialog(location: LatLng) {
@@ -118,7 +313,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         Log.e("usr loc" , usr_pickup_loc)
         txt_pickup.text = usr_pickup_loc
 
-        map!!.setOnMarkerClickListener {
+        map.setOnMarkerClickListener {
             dialog.show()
             false
         }
@@ -162,7 +357,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         btn_cancel.setOnClickListener {
             map.clear()
             dialog.dismiss()
-            setUpMap()
+//            setUpMap()
 
         }
     }
@@ -215,27 +410,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
 
-    private fun getAddress(location: LatLng): String {
-        val geocoder = Geocoder(this)
-        val addresses: List<Address>?
-        val address: Address?
-        var addressText = ""
-
-        try {
-
-            addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
-            if (null != addresses && !addresses.isEmpty()) {
-
-                 addressText = addresses[0].getAddressLine(0)
-                Log.e("Res : ", addressText)
-
-            }
-        } catch (e: IOException) {
-            Log.e("MapsActivity", e.localizedMessage)
-        }
-
-        return addressText
-    }
 
 
 

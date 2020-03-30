@@ -1,5 +1,6 @@
 package com.tutaapp.tuta
 
+import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,7 @@ class TrucksAdapter(private val truckList: List<Trucks>) : RecyclerView.Adapter<
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         var truckload: TextView = view.findViewById<View>(R.id.textLoad) as TextView
         var truckdec1: TextView = view.findViewById<View>(R.id.textDecOne) as TextView
-        var truckdec2: TextView = view.findViewById<View>(R.id.textDecTwo) as TextView
-        var truckdec3: TextView = view.findViewById<View>(R.id.textDecThree) as TextView
+
 
     }
 
@@ -26,10 +26,9 @@ class TrucksAdapter(private val truckList: List<Trucks>) : RecyclerView.Adapter<
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val trucks = truckList[position]
-        holder.truckload.text = trucks.truckload
-        holder.truckdec1.text = trucks.truckdec1
-        holder.truckdec2.text = trucks.truckdec2
-        holder.truckdec3.text = trucks.truckdec3
+        holder.truckload.text = Html.fromHtml(trucks.name)
+        holder.truckdec1.text = trucks.description
+
     }
 
     override fun getItemCount(): Int {
