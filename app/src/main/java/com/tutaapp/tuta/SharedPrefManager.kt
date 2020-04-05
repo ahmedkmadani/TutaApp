@@ -2,6 +2,7 @@ package com.tutaapp.tuta
 
 import android.content.Context
 import android.content.Intent
+import com.tutaapp.tuta.model.User
 
 class SharedPrefManager private constructor(context: Context) {
 

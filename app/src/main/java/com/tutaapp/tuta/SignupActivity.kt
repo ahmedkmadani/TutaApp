@@ -11,6 +11,7 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.material.snackbar.Snackbar
+import com.tutaapp.tuta.model.User
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject
 

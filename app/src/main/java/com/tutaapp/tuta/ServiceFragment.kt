@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.tutaapp.tuta.adapter.TrucksAdapter
+import com.tutaapp.tuta.model.Trucks
 import java.util.ArrayList
 
 class ServiceFragment : Fragment() {

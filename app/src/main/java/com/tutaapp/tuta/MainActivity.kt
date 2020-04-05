@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -13,6 +12,9 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
+import com.tutaapp.tuta.adapter.TrucksAdapter
+import com.tutaapp.tuta.model.Trucks
+import com.tutaapp.tuta.model.User
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -106,9 +108,20 @@ class MainActivity : AppCompatActivity() {
 
                     val TruckObject = TrucksArray.getJSONObject(i)
 
-                    truck.add(Trucks(TruckObject.getInt("id"), TruckObject.getString("name"), TruckObject.getString("description"), TruckObject.getString("created_at"), TruckObject.getString("updated_at"),
-                    TruckObject.getString("deleted_at"), TruckObject.getInt("base_charge"), TruckObject.getDouble("price_per_kilometer"),
-                        TruckObject.getDouble("price_per_second"), TruckObject.getInt("average_speed")))
+                    truck.add(
+                        Trucks(
+                            TruckObject.getInt("id"),
+                            TruckObject.getString("name"),
+                            TruckObject.getString("description"),
+                            TruckObject.getString("created_at"),
+                            TruckObject.getString("updated_at"),
+                            TruckObject.getString("deleted_at"),
+                            TruckObject.getInt("base_charge"),
+                            TruckObject.getDouble("price_per_kilometer"),
+                            TruckObject.getDouble("price_per_second"),
+                            TruckObject.getInt("average_speed")
+                        )
+                    )
                 }
 
                 mAdapter!!.notifyDataSetChanged()

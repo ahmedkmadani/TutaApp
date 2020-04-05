@@ -33,12 +33,15 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
+import com.tutaapp.tuta.model.TrucksDetails
+import com.tutaapp.tuta.model.User
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -70,6 +73,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var mFusedLocationClient: FusedLocationProviderClient
     private lateinit var sheetBehavior: BottomSheetBehavior<LinearLayout>
 
+    val truck_deatils = ArrayList<TrucksDetails>()
+    lateinit var dialog:AlertDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -90,8 +96,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         TRUCK_ID = intent.getStringExtra("TRUCK_ID")
         token = user.token
 
-        viewDialog.showDialog()
+        val builder = AlertDialog.Builder(this)
 
+        builder.setTitle("Our apologies ${user.FirstName}")
+        builder.setMessage("There is no nearby trcuk at this moment .. \n You want to try again ?" )
+        builder.setPositiveButton("Yes") { _, _ ->
+            getLastLocation()
+        }
+        builder.setNegativeButton("No") { _, _ ->
+            finish()
+        }
+
+        dialog = builder.create()
     }
 
 
@@ -112,6 +128,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun getAllTrucks(token: String, truckId: String, latitude: Double, longitude: Double) {
 
         val currentLatLng = LatLng(latitude, longitude)
+        Log.d("truck_id", "$truckId")
+        Log.d("lat", "$latitude")
+        Log.d("lon", "$longitude")
 
         val stringRequest: StringRequest = object : StringRequest( Method.POST, URLs.URL_GET_All_TRUCKS,
             Response.Listener { response ->
@@ -119,7 +138,50 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 try {
 
                     val jsonObject = JSONObject(response)
-                    Log.d("Response", "$jsonObject")
+                    val data = jsonObject.getJSONObject("data")
+                    val vehicle_locations = data.getJSONArray("vehicle_locations")
+
+
+                    if(data != null) {
+
+                        for (i in 0 until vehicle_locations.length()) {
+
+                            val VechicleObject = vehicle_locations.getJSONObject(i)
+
+                            truck_deatils.add(
+                                TrucksDetails(
+                                    VechicleObject.getInt("id"),
+                                    VechicleObject.getInt("vehicle_id"),
+                                    VechicleObject.getString("latitude"),
+                                    VechicleObject.getString("longitude"),
+                                    VechicleObject.getString("created_at"),
+                                    VechicleObject.getString("updated_at"),
+                                    VechicleObject.getString("deleted_at"),
+                                    VechicleObject.getString("vehicle")
+
+
+                                    )
+                            )
+
+
+                            val VehicleLocations = LatLng(truck_deatils[i].latitude!!.toDouble(),truck_deatils[i].longitude!!.toDouble())
+                            map.addMarker(MarkerOptions().position(VehicleLocations).title(truck_deatils[i].vehicle_id.toString()))
+
+                        }
+
+                        Log.d("res", "$jsonObject")
+
+                    } else {
+
+                        viewDialog.hideDialog()
+                        dialog.show()
+                        Snackbar.make(
+                            findViewById(android.R.id.content),
+                            "There is no close Truck", Snackbar.LENGTH_LONG).setAction("Try Again") {
+                            getLastLocation()
+
+                        }.show()
+                    }
 
                     viewDialog.hideDialog()
                     expandCloseSheet(currentLatLng)
@@ -135,6 +197,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     error.toString(), Snackbar.LENGTH_LONG).show()
 
                 viewDialog.hideDialog()
+                dialog.show()
 
             }) {
             override fun getParams(): Map<String, String> {
@@ -142,6 +205,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 params["vehicle_type_id"] = truckId
                 params["latitude"] =  latitude.toString()
                 params["longitude"] = longitude.toString()
+
                 return params
             }
 
@@ -176,16 +240,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         }
 
-        map.isMyLocationEnabled = true
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
-        map.addMarker(MarkerOptions().position(currentLatLng).title("Current Location"))
-
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 10f))
+        map.addMarker(MarkerOptions().position(currentLatLng).title("User Current Location")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.location))
     }
+
+
 
 
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
+        viewDialog.showDialog()
         if (checkPermissions()) {
             if (isLocationEnabled()) {
 
@@ -281,7 +346,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             if (null != addresses && !addresses.isEmpty()) {
 
                 addressText = addresses[0].getAddressLine(0)
-                Log.d("Adress", addresses.toString())
                 Log.d("User Address : ", addressText)
 
             }
