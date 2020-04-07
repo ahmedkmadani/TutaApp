@@ -29,15 +29,16 @@
 
         <TextView
                 android:id="@+id/user_location_pickup"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
-                android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
                 android:foreground="?attr/selectableItemBackground"
                 android:gravity="center"
-                android:textColor="#6F6C6C" />
+                android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
+                android:textColor="#6F6C6C"
+                android:textStyle="bold" />
 
     </LinearLayout>
 
@@ -64,15 +65,19 @@
         <!--android:text="kjikjdijdisjdsaid  jdiajdisadj"-->
         <!--style="@style/BottomSheetEditText" />-->
 
-        <AutoCompleteTextView
-                android:id="@+id/edit_drop"
-                android:layout_width="329dp"
+        <TextView
+                android:id="@+id/user_location_drop"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:textColor="#6F6C6C" />
+                android:gravity="center"
+                android:text="Where To ?"
+                android:textColor="#6F6C6C"
+                android:textStyle="bold" />
+
 
     </LinearLayout>
 

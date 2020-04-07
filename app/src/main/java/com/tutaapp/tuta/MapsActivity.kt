@@ -3,6 +3,7 @@ package com.tutaapp.tuta
 import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -23,9 +24,11 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.AuthFailureError
+import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.gms.common.api.Status
 import com.google.android.gms.location.*
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.Places
@@ -37,6 +40,13 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.AutocompleteActivity
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -47,7 +57,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 import java.util.*
-
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -76,6 +85,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     val truck_deatils = ArrayList<TrucksDetails>()
     lateinit var dialog:AlertDialog
 
+    var placesFileds = Arrays.asList(Place.Field.ID,
+        Place.Field.NAME, Place.Field.ADDRESS)
+
+    lateinit var placesClient:PlacesClient
+    val AUTOCOMPLETE_REQUEST_CODE = 123
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -95,6 +111,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         TRUCK_ID = intent.getStringExtra("TRUCK_ID")
         token = user.token
+
+
+        com.google.android.libraries.places.api.Places.initialize(
+            this,
+            getString(R.string.google_maps_key)
+        )
+        placesClient = com.google.android.libraries.places.api.Places.createClient(this)
 
         val builder = AlertDialog.Builder(this)
 
@@ -128,10 +151,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun getAllTrucks(token: String, truckId: String, latitude: Double, longitude: Double) {
 
         val currentLatLng = LatLng(latitude, longitude)
-        Log.d("truck_id", "$truckId")
-        Log.d("lat", "$latitude")
-        Log.d("lon", "$longitude")
-
+        
         val stringRequest: StringRequest = object : StringRequest( Method.POST, URLs.URL_GET_All_TRUCKS,
             Response.Listener { response ->
 
@@ -140,7 +160,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val jsonObject = JSONObject(response)
                     val data = jsonObject.getJSONObject("data")
                     val vehicle_locations = data.getJSONArray("vehicle_locations")
-
+                    Log.d("res", "$jsonObject")
 
                     if(data != null) {
 
@@ -195,7 +215,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 Snackbar.make(
                     findViewById(android.R.id.content),
                     error.toString(), Snackbar.LENGTH_LONG).show()
-
+                    Log.d("error", error.toString())
                 viewDialog.hideDialog()
                 dialog.show()
 
@@ -219,34 +239,70 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         }
         val requestQueue = Volley.newRequestQueue(this)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
         requestQueue.add(stringRequest)
+
     }
 
 
 
 
     private fun expandCloseSheet(currentLatLng: LatLng) {
-        if (sheetBehavior!!.state != BottomSheetBehavior.STATE_EXPANDED) {
-            sheetBehavior!!.state = BottomSheetBehavior.STATE_EXPANDED
+        if (sheetBehavior.state != BottomSheetBehavior.STATE_EXPANDED) {
+            sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+
 
             val user_Location = getAddress(currentLatLng)
             user_location_pickup.text = user_Location
+            user_location_drop.setOnClickListener {
+                initPlaceSerach()
+            }
 
         } else {
-            sheetBehavior!!.state = BottomSheetBehavior.STATE_COLLAPSED
+            sheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
 
             val UserLocation = getAddress(currentLatLng)
             user_location_pickup.text = UserLocation
 
         }
 
-        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 10f))
-        map.addMarker(MarkerOptions().position(currentLatLng).title("User Current Location")).setIcon(BitmapDescriptorFactory.fromResource(R.drawable.location))
+        map.isMyLocationEnabled = true
+        map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
     }
 
+    private fun initPlaceSerach() {
+
+       val intent = Intent(Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placesFileds).build(this))
+        startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == AUTOCOMPLETE_REQUEST_CODE ) {
+            if (resultCode == Activity.RESULT_OK ) {
+
+                val place = Autocomplete.getPlaceFromIntent(data!!)
+                Log.d("tag", "Place: " + place.name + ", " + place.latLng)
+
+                user_location_drop.text = place.address
+
+                val lat = place.latLng!!.latitude
+                val lon  = place.latLng!!.longitude
 
 
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR){
+                val status = Autocomplete.getStatusFromIntent(data!!)
+                Log.d("tag", status.statusMessage)
+                user_location_drop.text = "Hello"
 
+            } else if (resultCode == RESULT_CANCELED) {
+
+            }
+        }
+
+    }
 
     @SuppressLint("MissingPermission")
     private fun getLastLocation() {
@@ -284,7 +340,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         mLocationRequest.numUpdates = 1
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-        mFusedLocationClient!!.requestLocationUpdates(
+        mFusedLocationClient.requestLocationUpdates(
             mLocationRequest, mLocationCallback,
             Looper.myLooper()
         )
@@ -473,14 +529,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-
-
-
-
-
-    companion object {
-        private const val LOCATION_PERMISSION_REQUEST_CODE = 1
-    }
 
 
     override fun onMarkerClick(p0: Marker?) = false
