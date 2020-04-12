@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:id="@+id/bottom_sheet"
+              android:id="@+id/bottom_sheet_order"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:background="#fff"
@@ -9,7 +9,7 @@
               android:padding="@dimen/activity_margin"
               app:behavior_hideable="true"
               app:behavior_peekHeight="56dp"
-              app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+              app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
 
 
     <LinearLayout
@@ -29,14 +29,15 @@
 
         <TextView
                 android:id="@+id/txt_pick"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:layout_marginRight="5dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="Lorum Ipsam Lourm Ipsam"
+                android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
                 android:textColor="#6F6C6C"/>
 
     </LinearLayout>
@@ -67,14 +68,15 @@
 
         <TextView
                 android:id="@+id/txt_drop"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="15dp"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:layout_marginRight="5dp"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="Lorum Ipsam Lourm Ipsam"
+                android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
                 android:textColor="#6F6C6C"/>
 
     </LinearLayout>
@@ -103,8 +105,7 @@
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="#A3A0A0"
-                app:srcCompat="@drawable/ic_account_card_details_outline"/>
+                app:srcCompat="@drawable/ic_license_plate"/>
 
         <TextView
                 android:id="@+id/txtCarNo"
@@ -113,6 +114,7 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:layout_marginRight="4dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="R780"
@@ -122,11 +124,10 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="#A3A0A0"
-                app:srcCompat="@drawable/ic_account_circle_outline"/>
+                app:srcCompat="@drawable/ic_technician"/>
 
         <TextView
                 android:id="@+id/txtNolabour"
@@ -134,7 +135,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:layout_marginLeft="5dp"
+                android:textStyle="bold"
+                android:layout_marginLeft="0dp"
                 android:layout_weight="1"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="1"
@@ -144,11 +146,10 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="#A3A0A0"
-                app:srcCompat="@drawable/ic_credit_card"/>
+                app:srcCompat="@drawable/ic_money"/>
 
         <TextView
                 android:id="@+id/txtTripPrice"
@@ -156,10 +157,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:gravity="center"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="5dp"
                 android:layout_weight="1"
+                android:textStyle="bold"
                 android:foreground="?attr/selectableItemBackground"
-                android:text="20 RAND"
+                android:text="20"
                 android:textColor="#6F6C6C"/>
 
 
@@ -183,11 +185,10 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="#A3A0A0"
-                app:srcCompat="@drawable/ic_clock_outline"/>
+                app:srcCompat="@drawable/ic_clock"/>
 
         <TextView
                 android:id="@+id/txtTimeOrder"
@@ -196,7 +197,8 @@
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:layout_marginRight="4dp"
+                android:textStyle="bold"
+                android:layout_marginRight="0dp"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="5 mints"
                 android:textColor="#6F6C6C"/>
@@ -205,20 +207,20 @@
         <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="0dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginTop="5dp"
-                android:tint="#A3A0A0"
-                app:srcCompat="@drawable/ic_truck_fast"/>
+                app:srcCompat="@drawable/ic_tracking_two"/>
 
         <TextView
                 android:id="@+id/txtTruckType"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_marginLeft="4dp"
+                android:layout_marginLeft="0dp"
                 android:layout_weight="1"
                 android:gravity="center"
+                android:textStyle="bold"
                 android:foreground="?attr/selectableItemBackground"
                 android:text="5TON TRUCK"
                 android:textColor="#6F6C6C"/>

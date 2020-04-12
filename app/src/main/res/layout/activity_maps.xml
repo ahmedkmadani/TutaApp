@@ -18,5 +18,7 @@
             android:layout_height="match_parent"/>
 
     <include layout="@layout/bottom_sheet" />
+    <include layout="@layout/bottom_sheet_order" />
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
