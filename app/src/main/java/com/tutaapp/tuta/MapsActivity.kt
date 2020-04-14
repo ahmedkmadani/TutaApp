@@ -7,6 +7,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
@@ -25,6 +26,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
+import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -38,6 +40,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.Autocomplete
@@ -53,6 +56,8 @@ import kotlinx.android.synthetic.main.bottom_sheet_order.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
+import java.lang.Byte.decode
+import java.lang.Integer.decode
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -76,6 +81,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var token: String
     lateinit var DROP_LAT: String
     lateinit var DROP_LON: String
+    lateinit var PICK_LAT: String
+    lateinit var PICK_LON: String
     lateinit var addressText: String
     lateinit var DROP_TEXT: String
 
@@ -106,8 +113,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        sheetBehaviorOne = BottomSheetBehavior.from<LinearLayout>(bottom_sheet)
-        sheetBehaviorTwo = BottomSheetBehavior.from<LinearLayout>(bottom_sheet_order)
+        sheetBehaviorOne = BottomSheetBehavior.from(bottom_sheet)
+        sheetBehaviorTwo = BottomSheetBehavior.from(bottom_sheet_order)
 
         sheetBehaviorOne.state = BottomSheetBehavior.STATE_HIDDEN
         sheetBehaviorTwo.state = BottomSheetBehavior.STATE_HIDDEN
@@ -281,7 +288,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 12f))
     }
 
-    private fun GetEstimate(latitude: Double, longitude: Double, dropLat: String, c: String, truckId: String, token: String) {
+    private fun GetEstimate(latitude: Double, longitude: Double, dropLat: String, dropLon: String, truckId: String, token: String) {
         viewDialog.showDialog()
         val stringRequest: StringRequest = object : StringRequest( Method.POST, URLs.URL_TRIP_ESTIMATE,
             Response.Listener { response ->
@@ -294,7 +301,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val Estimate = Data.getString("estimate")
                     viewDialog.hideDialog()
 
-                    showOrderSheet(Estimate)
+                    showOrderSheet(Estimate, latitude, longitude)
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -307,7 +314,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     error.toString(), Snackbar.LENGTH_LONG).show()
                 Log.d("error", error.toString())
                 viewDialog.hideDialog()
-                dialog.show()
 
             }) {
             override fun getParams(): Map<String, String> {
@@ -316,7 +322,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 params["start_latitude"] =  latitude.toString()
                 params["start_longitude"] = longitude.toString()
                 params["stop_latitude"] = dropLat
-                params["stop_longitude"] = dropLat
+                params["stop_longitude"] = dropLon
 
                 return params
             }
@@ -358,6 +364,11 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 DROP_TEXT = place.name.toString()
                 user_location_drop.text = place.name
 
+                val dropLocations = LatLng(place.latLng!!.latitude,place.latLng!!.longitude)
+                map.addMarker(MarkerOptions().position(dropLocations).title("Drop Location"))
+
+                DrawRoute(place.latLng!!.latitude,place.latLng!!.longitude, DROP_LAT, DROP_LON)
+
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR){
                 val status = Autocomplete.getStatusFromIntent(data!!)
                 Log.d("tag", status.statusMessage)
@@ -368,6 +379,32 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
         }
 
+    }
+
+    private fun DrawRoute(latitude: Double, longitude: Double, dropLat: String, dropLon: String) {
+
+        val path: MutableList<List<LatLng>> = ArrayList()
+        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key=<YOUR_API_KEY>"
+        val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener {
+                response ->
+            val jsonResponse = JSONObject(response)
+
+            val routes = jsonResponse.getJSONArray("routes")
+            val legs = routes.getJSONObject(0).getJSONArray("legs")
+            val steps = legs.getJSONObject(0).getJSONArray("steps")
+
+            for (i in 0 until steps.length()) {
+                val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
+                path.add(PolyUtil.decode(points))
+            }
+            for (i in 0 until path.size) {
+               map!!.addPolyline(PolylineOptions().addAll(path[i]).color(Color.RED))
+            }
+        }, Response.ErrorListener {
+                _ ->
+        }){}
+        val requestQueue = Volley.newRequestQueue(this)
+        requestQueue.add(directionsRequest)
     }
 
     @SuppressLint("MissingPermission")
@@ -381,6 +418,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     if (location == null) {
                         requestNewLocationData()
                     } else {
+
+                        PICK_LAT = location.latitude.toString()
+                        PICK_LON = location.longitude.toString()
                         getAllTrucks(token , TRUCK_ID , location.latitude , location.longitude )
                     }
                 }
@@ -415,6 +455,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private val mLocationCallback = object : LocationCallback() {
         override fun onLocationResult(locationResult: LocationResult) {
             var mLastLocation: Location = locationResult.lastLocation
+
+            PICK_LON = mLastLocation.latitude.toString()
+            PICK_LON = mLastLocation.longitude.toString()
+
             getAllTrucks(token, TRUCK_ID, mLastLocation.latitude, mLastLocation.longitude)
         }
     }
@@ -480,12 +524,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
     }
 
-    private fun showOrderSheet(estimate: String) {
+    private fun showOrderSheet(estimate: String, latitude: Double, longitude: Double) {
         if (sheetBehaviorTwo.state != BottomSheetBehavior.STATE_EXPANDED) {
             sheetBehaviorTwo.state = BottomSheetBehavior.STATE_EXPANDED
             txtTripPrice.text = estimate + " RAND"
             txt_pick.text = addressText
             txt_drop.text = DROP_TEXT
+
+            btn_confrim_order.setOnClickListener {
+                sheetBehaviorOne.state = BottomSheetBehavior.STATE_HIDDEN
+                StoreTrip(latitude,longitude, DROP_LAT, DROP_LON, TRUCK_ID, token)
+
+            }
 
         } else {
             sheetBehaviorTwo.state = BottomSheetBehavior.STATE_COLLAPSED
@@ -496,6 +546,59 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
+    private fun StoreTrip(latitude: Double, longitude: Double, dropLat: String, dropLon: String, truckId: String, token: String) {
+        viewDialog.showDialog()
+        val stringRequest: StringRequest = object : StringRequest( Method.POST, URLs.URL_STORE_TRIP,
+            Response.Listener { response ->
+
+                try {
+
+                    val jsonObject = JSONObject(response)
+                    val Data = jsonObject.getJSONObject("data")
+                    Log.d("res", jsonObject.toString())
+                    Log.d("data res", Data.toString())
+                    viewDialog.hideDialog()
+
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                }
+            },
+            Response.ErrorListener { error ->
+
+                Snackbar.make(
+                    findViewById(android.R.id.content),
+                    error.toString(), Snackbar.LENGTH_LONG).show()
+                Log.d("error", error.toString())
+                viewDialog.hideDialog()
+
+            }) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                params["vehicle_type_id"] = truckId
+                params["start_latitude"] =  latitude.toString()
+                params["start_longitude"] = longitude.toString()
+                params["stop_latitude"] = dropLat
+                params["stop_longitude"] = dropLon
+
+                return params
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
+                headers["Content-Type"] = "application/x-www-form-urlencoded"
+                return headers
+            }
+
+        }
+        val requestQueue = Volley.newRequestQueue(this)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        requestQueue.add(stringRequest)
+
+    }
     private fun showDetentionSheet(usr_pickup_loc: String) {
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet_des, null)
