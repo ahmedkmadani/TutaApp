@@ -11,6 +11,4 @@ object URLs {
     val URL_TRIP_ESTIMATE = "$ROOT_URL/trips/estimate"
     val URL_STORE_TRIP = "$ROOT_URL/trips"
 
-
-
 }

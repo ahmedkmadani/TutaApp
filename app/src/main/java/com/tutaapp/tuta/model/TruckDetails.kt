@@ -8,10 +8,10 @@ class TrucksDetails {
     var created_at: String? = null
     var updated_at: String? = null
     var deleted_at: String? = null
-    var vehicle: String? = null
+//    var vehicle: String? = null
 
 
-    constructor(id: Int, vehicle_id: Int, latitude: String, longitude: String, created_at: String, updated_at: String, deleted_at: String, vehicle: String) {
+    constructor(id: Int, vehicle_id: Int, latitude: String, longitude: String, created_at: String, updated_at: String, deleted_at: String) {
         this.id = id
         this.vehicle_id = vehicle_id
         this.latitude = latitude
@@ -19,7 +19,7 @@ class TrucksDetails {
         this.updated_at = updated_at
         this.deleted_at = deleted_at
         this.longitude = longitude
-        this.vehicle = vehicle
+//        this.vehicle = vehicle
 
 
     }

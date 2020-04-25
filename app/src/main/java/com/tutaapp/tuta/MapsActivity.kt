@@ -159,7 +159,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-
     private fun getAllTrucks(token: String, truckId: String, latitude: Double, longitude: Double) {
 
         val currentLatLng = LatLng(latitude, longitude)
@@ -188,9 +187,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                                     VechicleObject.getString("longitude"),
                                     VechicleObject.getString("created_at"),
                                     VechicleObject.getString("updated_at"),
-                                    VechicleObject.getString("deleted_at"),
-                                    VechicleObject.getString("vehicle")
-
+                                    VechicleObject.getString("deleted_at")
 
                                     )
                             )
@@ -256,9 +253,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         requestQueue.add(stringRequest)
 
     }
-
-
-
 
     private fun expandCloseSheet(currentLatLng: LatLng) {
         if (sheetBehaviorOne.state != BottomSheetBehavior.STATE_EXPANDED) {
@@ -343,9 +337,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-
-
-
     private fun initPlaceSerach() {
 
        val intent = Intent(Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placesFileds).build(this))
@@ -365,9 +356,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                 user_location_drop.text = place.name
 
                 val dropLocations = LatLng(place.latLng!!.latitude,place.latLng!!.longitude)
+//                DrawRoute(place.latLng!!.latitude,place.latLng!!.longitude, DROP_LAT, DROP_LON)
                 map.addMarker(MarkerOptions().position(dropLocations).title("Drop Location"))
 
-                DrawRoute(place.latLng!!.latitude,place.latLng!!.longitude, DROP_LAT, DROP_LON)
 
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR){
                 val status = Autocomplete.getStatusFromIntent(data!!)
@@ -384,10 +375,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun DrawRoute(latitude: Double, longitude: Double, dropLat: String, dropLon: String) {
 
         val path: MutableList<List<LatLng>> = ArrayList()
-        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=10.3181466,123.9029382&destination=10.311795,123.915864&key=<YOUR_API_KEY>"
+        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=$latitude,$longitude&destination=$dropLat,$dropLon&key=${this.getString(R.string.google_maps_key)}"
         val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener {
                 response ->
             val jsonResponse = JSONObject(response)
+            Log.d("rest", response)
+            print(response)
 
             val routes = jsonResponse.getJSONArray("routes")
             val legs = routes.getJSONObject(0).getJSONArray("legs")
@@ -395,7 +388,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
             for (i in 0 until steps.length()) {
                 val points = steps.getJSONObject(i).getJSONObject("polyline").getString("points")
-                path.add(PolyUtil.decode(points))
+                Log.d("rest", points)
             }
             for (i in 0 until path.size) {
                map!!.addPolyline(PolylineOptions().addAll(path[i]).color(Color.RED))
@@ -599,6 +592,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         requestQueue.add(stringRequest)
 
     }
+
     private fun showDetentionSheet(usr_pickup_loc: String) {
 
         val view = layoutInflater.inflate(R.layout.bottom_sheet_des, null)
@@ -672,8 +666,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     override fun onMarkerClick(p0: Marker?) = false
-
-
 
     fun hideKeyboard() {
         try {
