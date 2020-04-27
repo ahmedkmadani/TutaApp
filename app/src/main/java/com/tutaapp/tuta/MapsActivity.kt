@@ -16,17 +16,13 @@ import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
@@ -47,7 +43,6 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.pusher.client.Pusher
 import com.pusher.client.PusherOptions
@@ -64,8 +59,6 @@ import kotlinx.android.synthetic.main.bottom_sheet_start_trip.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
-import java.lang.Byte.decode
-import java.lang.Integer.decode
 import java.util.*
 
 class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
@@ -171,7 +164,13 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun expandStartSheet(driverName: String?) {
 
             sheetBehaviorThree.state = BottomSheetBehavior.STATE_EXPANDED
+
+//            val user_pickup_Location = getAddress(pickUpLatLng)
+//            val user_dropoff_Location = getAddress(dropOfftLatLng)
+
             driver_name.text = driverName
+//            user_trip_pickup.text = user_pickup_Location
+//            user_trip_drop.text = user_dropoff_Location
 
     }
 
@@ -577,9 +576,17 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val jsonObject = JSONObject(response)
                     val Data = jsonObject.getJSONObject("data")
 
-                    OnSuccess()
                     Log.d("res", jsonObject.toString())
                     Log.d("data res", Data.toString())
+
+//                    val start_latitude = Data.getString("start_latitude")
+//                    val start_longitude = Data.getString("start_longitude")
+//
+//                    val stop_latitude = Data.getString("stop_latitude")
+//                    val stop_longitude = Data.getString("stop_longitude")
+
+//                    OnSuccess(start_latitude,start_longitude,stop_latitude,stop_longitude)
+                    OnSuccess()
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -622,6 +629,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun OnSuccess() {
+
+//        val PickUpLatLng = LatLng(startLatitude.toDouble(), startLongitude.toDouble())
+//        val DropOfftLatLng = LatLng(stopLatitude.toDouble(), stopLongitude.toDouble())
 
         val options = PusherOptions()
         options.setCluster("eu")
