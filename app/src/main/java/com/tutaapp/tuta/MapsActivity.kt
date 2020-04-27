@@ -149,80 +149,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         Log.d("token", token)
 
 
-        val options = PusherOptions()
-        options.setCluster("eu")
-
-        val headers: HashMap<String, String> = HashMap()
-        headers["Authorization"] = "Bearer $token"
-        headers["Content-Type"] = "application/x-www-form-urlencoded"
-        headers["Accept"] = "application/json"
-
-        val authorizer = HttpAuthorizer(URLs.URL_AUTH)
-        options.setAuthorizer(authorizer).isEncrypted
-        authorizer.setHeaders(headers)
-
-        val pusher = Pusher("0d7a677e7fd7526b0c97", options)
-
-        pusher.connect(object: ConnectionEventListener {
-            override fun onConnectionStateChange(change: ConnectionStateChange) {
-                println(("State changed from " + change.previousState +
-                        " to " + change.currentState))
-            }
-
-            override fun onError(message:String, code:String, e:Exception) {
-                println(("There was a problem connecting! " +
-                        "\ncode: " + code +
-                        "\nmessage: " + message +
-                        "\nException: " + e)
-                )
-            }
-        }, ConnectionState.ALL)
-
-
-        val channel = pusher.subscribePrivate("private-App.User.$UserId", object:
-            PrivateChannelEventListener {
-            override fun onEvent(channel: String?, eventName: String?, data: String?) {
-                Log.d("Channel", channel)
-                Log.d("Event Name", eventName)
-                Log.d("Data", data)
-            }
-
-            override fun onAuthenticationFailure(p0: String?, p1: java.lang.Exception?) {
-                Log.d("error", p1.toString())
-            }
-
-            override fun onSubscriptionSucceeded(p0: String?) {
-                Log.d("res", p0)
-            }
-        })
-
-
-        channel.bind("Illuminate\\Notifications\\Events\\BroadcastNotificationCreated", object : PrivateChannelEventListener {
-            override fun onEvent(channel: String?, eventName: String?, data: String?) {
-                Log.d("Channel", channel)
-                Log.d("Event Name", eventName)
-                Log.d("Data", data)
-
-                val jsonObject = JSONObject(data)
-                val driver_name = jsonObject.getString("driver_name")
-
-                runOnUiThread {
-                    viewDialog.showDialog()
-                    expandStartSheet(driver_name)
-                }
-            }
-
-            override fun onAuthenticationFailure(p0: String?, p1: java.lang.Exception?) {
-                Log.d("error", p1.toString())
-            }
-
-            override fun onSubscriptionSucceeded(p0: String?) {
-                Log.d("res", p0)
-            }
-
-        })
-
-
 
     com.google.android.libraries.places.api.Places.initialize(this, getString(R.string.google_maps_key))
         placesClient = com.google.android.libraries.places.api.Places.createClient(this)
@@ -653,6 +579,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
                     val jsonObject = JSONObject(response)
                     val Data = jsonObject.getJSONObject("data")
 
+                    OnSuccess()
                     Log.d("res", jsonObject.toString())
                     Log.d("data res", Data.toString())
 
@@ -696,8 +623,80 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-    private fun AcceptTrip() {
+    private fun OnSuccess() {
 
+        val options = PusherOptions()
+        options.setCluster("eu")
+
+        val headers: HashMap<String, String> = HashMap()
+        headers["Authorization"] = "Bearer $token"
+        headers["Content-Type"] = "application/x-www-form-urlencoded"
+        headers["Accept"] = "application/json"
+
+        val authorizer = HttpAuthorizer(URLs.URL_AUTH)
+        options.setAuthorizer(authorizer).isEncrypted
+        authorizer.setHeaders(headers)
+
+        val pusher = Pusher("0d7a677e7fd7526b0c97", options)
+
+        pusher.connect(object: ConnectionEventListener {
+            override fun onConnectionStateChange(change: ConnectionStateChange) {
+                println(("State changed from " + change.previousState +
+                        " to " + change.currentState))
+            }
+
+            override fun onError(message:String, code:String, e:Exception) {
+                println(("There was a problem connecting! " +
+                        "\ncode: " + code +
+                        "\nmessage: " + message +
+                        "\nException: " + e)
+                )
+            }
+        }, ConnectionState.ALL)
+
+
+        val channel = pusher.subscribePrivate("private-App.User.$UserId", object:
+            PrivateChannelEventListener {
+            override fun onEvent(channel: String?, eventName: String?, data: String?) {
+                Log.d("Channel", channel)
+                Log.d("Event Name", eventName)
+                Log.d("Data", data)
+            }
+
+            override fun onAuthenticationFailure(p0: String?, p1: java.lang.Exception?) {
+                Log.d("error", p1.toString())
+            }
+
+            override fun onSubscriptionSucceeded(p0: String?) {
+                Log.d("res", p0)
+            }
+        })
+
+
+        channel.bind("Illuminate\\Notifications\\Events\\BroadcastNotificationCreated", object : PrivateChannelEventListener {
+            override fun onEvent(channel: String?, eventName: String?, data: String?) {
+                Log.d("Channel", channel)
+                Log.d("Event Name", eventName)
+                Log.d("Data", data)
+
+                val jsonObject = JSONObject(data)
+                val driver_name = jsonObject.getString("driver_name")
+
+                runOnUiThread {
+                    viewDialog.hideDialog()
+                    expandStartSheet(driver_name)
+                }
+            }
+
+            override fun onAuthenticationFailure(p0: String?, p1: java.lang.Exception?) {
+                Log.d("error", p1.toString())
+            }
+
+            override fun onSubscriptionSucceeded(p0: String?) {
+                Log.d("res", p0)
+            }
+
+        })
     }
 
 
