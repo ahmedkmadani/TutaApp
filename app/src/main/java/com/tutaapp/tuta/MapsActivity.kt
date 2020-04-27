@@ -60,6 +60,7 @@ import com.tutaapp.tuta.model.TrucksDetails
 import com.tutaapp.tuta.model.User
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.bottom_sheet_order.*
+import kotlinx.android.synthetic.main.bottom_sheet_start_trip.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
@@ -103,6 +104,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     private lateinit var sheetBehaviorOne: BottomSheetBehavior<LinearLayout>
     private lateinit var sheetBehaviorTwo: BottomSheetBehavior<LinearLayout>
+    private lateinit var sheetBehaviorThree: BottomSheetBehavior<LinearLayout>
 
 
     val truck_deatils = ArrayList<TrucksDetails>()
@@ -127,9 +129,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
         sheetBehaviorOne = BottomSheetBehavior.from(bottom_sheet)
         sheetBehaviorTwo = BottomSheetBehavior.from(bottom_sheet_order)
+        sheetBehaviorThree = BottomSheetBehavior.from(bottom_sheet_start_trip)
 
         sheetBehaviorOne.state = BottomSheetBehavior.STATE_HIDDEN
         sheetBehaviorTwo.state = BottomSheetBehavior.STATE_HIDDEN
+        sheetBehaviorThree.state = BottomSheetBehavior.STATE_HIDDEN
+
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
         mGeoDataClient = Places.getGeoDataClient(this, null)
@@ -203,6 +208,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
                 runOnUiThread {
                     viewDialog.showDialog()
+                    expandStartSheet(driver_name)
                 }
             }
 
@@ -215,8 +221,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             }
 
         })
-
-
 
 
 
@@ -235,6 +239,18 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         }
 
         dialog = builder.create()
+    }
+
+
+    private fun expandStartSheet(driverName: String?) {
+
+            sheetBehaviorThree.state = BottomSheetBehavior.STATE_EXPANDED
+
+            user_location_pickup.text = user_Location
+            user_location_drop.text =
+
+
+
     }
 
 

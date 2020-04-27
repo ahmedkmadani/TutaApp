@@ -27,7 +27,7 @@
             android:layout_marginBottom="15dp"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="left"
-            android:text="Client Details :"
+            android:text="Driver Details :"
             android:textColor="#6F6C6C"
             android:textStyle="bold" />
 
@@ -38,15 +38,6 @@
         android:layout_height="match_parent"
         android:orientation="horizontal">
 
-
-<!--        <ImageView-->
-<!--            android:layout_width="24dp"-->
-<!--            android:layout_height="24dp"-->
-<!--            android:layout_marginLeft="5dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:layout_marginRight="5dp"-->
-<!--            android:tint="#E91E63"-->
-<!--            app:srcCompat="@drawable/ic_circle_medium" />-->
 
         <TextView
             android:id="@+id/user_name"
