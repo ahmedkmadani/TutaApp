@@ -40,7 +40,7 @@
 
 
         <TextView
-            android:id="@+id/user_name"
+            android:id="@+id/driver_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"

@@ -245,11 +245,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun expandStartSheet(driverName: String?) {
 
             sheetBehaviorThree.state = BottomSheetBehavior.STATE_EXPANDED
-
-            user_location_pickup.text = user_Location
-            user_location_drop.text =
-
-
+            driver_name.text = driverName
 
     }
 
