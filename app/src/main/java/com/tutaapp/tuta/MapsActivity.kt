@@ -368,10 +368,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
     private fun initPlaceSerach() {
-
        val intent = Intent(Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, placesFileds).build(this))
         startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -699,77 +697,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         })
     }
 
-
-    private fun showDetentionSheet(usr_pickup_loc: String) {
-
-        val view = layoutInflater.inflate(R.layout.bottom_sheet_des, null)
-        val dialog = BottomSheetDialog(this)
-
-        val btn_order = view.findViewById(R.id.btn_order) as Button
-        val btn_cancel = view.findViewById(R.id.btn_cancel) as Button
-
-        val txt_pickup = view.findViewById(R.id.txt_pickup) as TextView
-        txt_pickup.text = usr_pickup_loc
-
-        dialog.setContentView(view)
-        dialog.show()
-
-        btn_order.setOnClickListener {
-
-            dialog.dismiss()
-
-        }
-
-        btn_cancel.setOnClickListener {
-            map.clear()
-            dialog.dismiss()
-//            setUpMap()
-
-        }
-    }
-
-    private fun showBottomSheetDialog(location: LatLng) {
-        val view = layoutInflater.inflate(R.layout.bottom_sheet, null)
-        val dialog = BottomSheetDialog(this)
-
-        val btn_drop = view.findViewById(R.id.btn_drop) as Button
-        val txt_pickup = view.findViewById(R.id.txt_pickup) as TextView
-//        val edit_drop = view.findViewById(R.id.edit_drop) as AutoCompleteTextView
-
-        dialog.setContentView(view)
-        dialog.show()
-
-        val usr_pickup_loc = getAddress(location)
-        Log.e("usr loc" , usr_pickup_loc)
-        txt_pickup.text = usr_pickup_loc
-
-        map.setOnMarkerClickListener {
-            dialog.show()
-            false
-        }
-
-        btn_drop.setOnClickListener {
-
-            val desLatLng = LatLng(5.6421535, -0.155071)
-            map.animateCamera(CameraUpdateFactory.newLatLngZoom(desLatLng, 12f))
-            map.addMarker(MarkerOptions().position(desLatLng ).title("Distention Location"))
-
-            dialog.dismiss()
-            showDetentionSheet(usr_pickup_loc)
-
-        }
-
-
-    }
-
-    private fun ShowConifrmdailog() {
-
-        val cDialogView = LayoutInflater.from(this).inflate(R.layout.confirm_order_dailog, null)
-        val mBuilder = AlertDialog.Builder(this).setView(cDialogView)
-
-        val mAlertDialog = mBuilder.show()
-
-    }
 
     override fun onMarkerClick(p0: Marker?) = false
 
