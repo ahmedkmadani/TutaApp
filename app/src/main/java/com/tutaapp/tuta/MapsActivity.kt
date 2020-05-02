@@ -161,16 +161,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     }
 
 
-    private fun expandStartSheet(driverName: String?) {
+    private fun expandStartSheet(driverName: String?, pickUpLatLng: LatLng, dropOfftLatLng: LatLng) {
 
             sheetBehaviorThree.state = BottomSheetBehavior.STATE_EXPANDED
 
-//            val user_pickup_Location = getAddress(pickUpLatLng)
-//            val user_dropoff_Location = getAddress(dropOfftLatLng)
+            val user_pickup_Location = getAddress(pickUpLatLng)
+            val user_dropoff_Location = getAddress(dropOfftLatLng)
 
             driver_name.text = driverName
-//            user_trip_pickup.text = user_pickup_Location
-//            user_trip_drop.text = user_dropoff_Location
+            user_trip_pickup.text = user_pickup_Location
+            user_trip_drop.text = user_dropoff_Location
 
     }
 
@@ -575,18 +575,21 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
                     val jsonObject = JSONObject(response)
                     val Data = jsonObject.getJSONObject("data")
+                    val Trip = Data.getJSONObject("trip")
 
                     Log.d("res", jsonObject.toString())
                     Log.d("data res", Data.toString())
+                    Log.d("trip res", Trip.toString())
 
-//                    val start_latitude = Data.getString("start_latitude")
-//                    val start_longitude = Data.getString("start_longitude")
-//
-//                    val stop_latitude = Data.getString("stop_latitude")
-//                    val stop_longitude = Data.getString("stop_longitude")
 
-//                    OnSuccess(start_latitude,start_longitude,stop_latitude,stop_longitude)
-                    OnSuccess()
+                    val start_latitude = Trip.getString("start_latitude")
+                    val start_longitude = Trip.getString("start_longitude")
+
+                    val stop_latitude = Trip.getString("stop_latitude")
+                    val stop_longitude = Trip.getString("stop_longitude")
+
+                    OnSuccess(start_latitude,start_longitude,stop_latitude,stop_longitude)
+//                    OnSuccess()
 
                 } catch (e: JSONException) {
                     e.printStackTrace()
@@ -628,10 +631,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
     }
 
-    private fun OnSuccess() {
+    private fun OnSuccess(startLatitude: String, startLongitude: String, stopLatitude: String, stopLongitude: String) {
 
-//        val PickUpLatLng = LatLng(startLatitude.toDouble(), startLongitude.toDouble())
-//        val DropOfftLatLng = LatLng(stopLatitude.toDouble(), stopLongitude.toDouble())
+        val PickUpLatLng = LatLng(startLatitude.toDouble(), startLongitude.toDouble())
+        val DropOfftLatLng = LatLng(stopLatitude.toDouble(), stopLongitude.toDouble())
 
         val options = PusherOptions()
         options.setCluster("eu")
@@ -692,7 +695,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
                 runOnUiThread {
                     viewDialog.hideDialog()
-                    expandStartSheet(driver_name)
+                    expandStartSheet(driver_name,PickUpLatLng,DropOfftLatLng)
                 }
             }
 
