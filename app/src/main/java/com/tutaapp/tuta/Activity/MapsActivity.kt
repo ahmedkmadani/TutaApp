@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Activity
 
 import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -24,6 +24,7 @@ import androidx.core.app.ActivityCompat
 import com.android.volley.AuthFailureError
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Response
+import com.android.volley.VolleyError
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.gms.location.*
@@ -51,10 +52,17 @@ import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
-import com.tutaapp.tuta.model.TrucksDetails
-import com.tutaapp.tuta.model.User
+import com.tutaapp.tuta.Adapter.PlacesAdapter
+import com.tutaapp.tuta.Model.TrucksDetails
+import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.R
+import com.tutaapp.tuta.Utils.SharedPrefManager
+import com.tutaapp.tuta.Utils.URLs
+import com.tutaapp.tuta.Utils.ViewDialog
 import kotlinx.android.synthetic.main.bottom_sheet.*
+import kotlinx.android.synthetic.main.bottom_sheet_end_trip.*
 import kotlinx.android.synthetic.main.bottom_sheet_order.*
+import kotlinx.android.synthetic.main.bottom_sheet_order.txtTripPrice
 import kotlinx.android.synthetic.main.bottom_sheet_start_trip.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -88,6 +96,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     lateinit var PICK_LON: String
 
     lateinit var addressText: String
+    lateinit var TRIPID: String
+
     lateinit var DROP_TEXT: String
     lateinit var UserId: String
 
@@ -98,6 +108,8 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private lateinit var sheetBehaviorOne: BottomSheetBehavior<LinearLayout>
     private lateinit var sheetBehaviorTwo: BottomSheetBehavior<LinearLayout>
     private lateinit var sheetBehaviorThree: BottomSheetBehavior<LinearLayout>
+    private lateinit var sheetBehaviorFour: BottomSheetBehavior<LinearLayout>
+
 
 
     val truck_deatils = ArrayList<TrucksDetails>()
@@ -123,10 +135,14 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         sheetBehaviorOne = BottomSheetBehavior.from(bottom_sheet)
         sheetBehaviorTwo = BottomSheetBehavior.from(bottom_sheet_order)
         sheetBehaviorThree = BottomSheetBehavior.from(bottom_sheet_start_trip)
+        sheetBehaviorFour = BottomSheetBehavior.from(bottom_sheet_end_trip)
+
 
         sheetBehaviorOne.state = BottomSheetBehavior.STATE_HIDDEN
         sheetBehaviorTwo.state = BottomSheetBehavior.STATE_HIDDEN
         sheetBehaviorThree.state = BottomSheetBehavior.STATE_HIDDEN
+        sheetBehaviorFour.state = BottomSheetBehavior.STATE_HIDDEN
+
 
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -164,6 +180,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun expandStartSheet(driverName: String?, pickUpLatLng: LatLng, dropOfftLatLng: LatLng) {
 
             sheetBehaviorThree.state = BottomSheetBehavior.STATE_EXPANDED
+            sheetBehaviorTwo.state = BottomSheetBehavior.STATE_HIDDEN
 
             val user_pickup_Location = getAddress(pickUpLatLng)
             val user_dropoff_Location = getAddress(dropOfftLatLng)
@@ -172,6 +189,87 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
             user_trip_pickup.text = user_pickup_Location
             user_trip_drop.text = user_dropoff_Location
 
+
+
+    }
+
+    private fun EndTrip(tripid: String, token: String) {
+
+        viewDialog.showDialog()
+        val stringRequest: StringRequest = object : StringRequest( Method.GET, URLs.URL_END_TRIP + "${tripid.toInt()}/complete",
+            Response.Listener { response ->
+                try {
+
+                    val jsonObject = JSONObject(response)
+                    val Data = jsonObject.getJSONObject("data")
+                    val Trip = Data.getJSONObject("trip")
+
+                    val start_latitude = Trip.getString("start_latitude")
+                    val start_longitude = Trip.getString("start_longitude")
+
+                    val stop_latitude = Trip.getString("stop_latitude")
+                    val stop_longitude = Trip.getString("stop_longitude")
+
+                    val amount = Trip.getString("amount")
+
+                    OnSuccessEnd(start_latitude,start_longitude,stop_latitude,stop_longitude, amount)
+
+                    Log.d("res end trip", response.toString())
+
+                } catch (e: JSONException) {
+                    e.printStackTrace()
+                    viewDialog.hideDialog()
+                }
+            },
+            Response.ErrorListener { error ->
+                onFailed(error)
+                Log.d("debug", error.toString())
+                viewDialog.hideDialog()
+            }) {
+            override fun getParams(): Map<String, String> {
+                val params: MutableMap<String, String> = HashMap()
+                return params
+            }
+
+            @Throws(AuthFailureError::class)
+            override fun getHeaders(): Map<String, String> {
+                val headers = HashMap<String, String>()
+                headers["Authorization"] = "Bearer $token"
+                headers["Content-Type"] = "application/x-www-form-urlencoded"
+                return headers
+            }
+
+        }
+        val requestQueue = Volley.newRequestQueue(this)
+        stringRequest.retryPolicy =
+            DefaultRetryPolicy(20 * 1000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
+        requestQueue.add(stringRequest)
+
+    }
+
+    private fun OnSuccessEnd(startLatitude: String?, startLongitude: String?, stopLatitude: String?, stopLongitude: String?, amount: String?) {
+
+            val PickUpLatLng = LatLng(startLatitude!!.toDouble(), startLongitude!!.toDouble())
+            val DropOfftLatLng = LatLng(stopLatitude!!.toDouble(), stopLongitude!!.toDouble())
+
+            viewDialog.hideDialog()
+            expandEndSheet(amount,PickUpLatLng,DropOfftLatLng)
+
+        }
+
+    private fun expandEndSheet(amount: String?, pickUpLatLng: LatLng, dropOfftLatLng: LatLng) {
+        sheetBehaviorFour.state = BottomSheetBehavior.STATE_EXPANDED
+
+        val user_pickup_Location = getAddress(pickUpLatLng)
+        val user_dropoff_Location = getAddress(dropOfftLatLng)
+
+        txtTripPrice.text = amount
+        txt_pick_end.text = user_pickup_Location
+        txt_drop_end.text = user_dropoff_Location
+
+        btn_pay.setOnClickListener {
+           finish()
+        }
     }
 
 
@@ -402,7 +500,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
     private fun DrawRoute(latitude: Double, longitude: Double, dropLat: String, dropLon: String) {
 
         val path: MutableList<List<LatLng>> = ArrayList()
-        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=$latitude,$longitude&destination=$dropLat,$dropLon&key=${this.getString(R.string.google_maps_key)}"
+        val urlDirections = "https://maps.googleapis.com/maps/api/directions/json?origin=$latitude,$longitude&destination=$dropLat,$dropLon&key=${this.getString(
+            R.string.google_maps_key
+        )}"
         val directionsRequest = object : StringRequest(Method.GET, urlDirections, Response.Listener {
                 response ->
             val jsonResponse = JSONObject(response)
@@ -692,6 +792,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
 
                 val jsonObject = JSONObject(data)
                 val driver_name = jsonObject.getString("driver_name")
+                TRIPID = jsonObject.getString("trip_id")
+
+                Log.d("TRIP_ID", TRIPID)
 
                 runOnUiThread {
                     viewDialog.hideDialog()
@@ -710,6 +813,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarker
         })
     }
 
+    private fun onFailed(error: VolleyError) {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            error.toString(), Snackbar.LENGTH_LONG).show()
+        Log.d("error", error.toString())
+    }
 
     override fun onMarkerClick(p0: Marker?) = false
 

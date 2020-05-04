@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,9 +12,15 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.tutaapp.tuta.adapter.TrucksAdapter
-import com.tutaapp.tuta.model.Trucks
-import com.tutaapp.tuta.model.User
+import com.tutaapp.tuta.Adapter.TrucksAdapter
+import com.tutaapp.tuta.Model.Trucks
+import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.R
+import com.tutaapp.tuta.Utils.SharedPrefManager
+import com.tutaapp.tuta.Utils.RecyclerTouchListener
+import com.tutaapp.tuta.Utils.URLs
+import com.tutaapp.tuta.Utils.ViewDialog
+import com.tutaapp.tuta.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -69,7 +75,8 @@ class MainActivity : AppCompatActivity() {
             RecyclerTouchListener(
                 applicationContext,
                 recyclerview!!,
-                object : RecyclerTouchListener.ClickListener {
+                object :
+                    RecyclerTouchListener.ClickListener {
                     override fun onLongClick(view: View?, position: Int) {
                         val truck = truck.get(position)
                         val intent = Intent(baseContext, MapsActivity::class.java)

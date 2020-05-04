@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Fargment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,6 +9,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.tutaapp.tuta.R
 
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
@@ -26,7 +27,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
         var rootView = inflater.inflate(R.layout.fragment_map, container, false)
 
-        mapFragment = childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
+        mapFragment = childFragmentManager.findFragmentById(
+            R.id.map
+        ) as SupportMapFragment?
         mapFragment?.getMapAsync(this)
 
 //        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this@)

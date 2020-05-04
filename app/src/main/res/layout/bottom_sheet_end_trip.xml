@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_sheet_end_trip"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fff"
+    android:orientation="vertical"
+    android:padding="@dimen/activity_margin"
+    app:behavior_hideable="true"
+    app:behavior_peekHeight="56dp"
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:tint="#E91E63"
+            app:srcCompat="@drawable/ic_circle_medium"/>
+
+        <TextView
+            android:id="@+id/txt_pick_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
+            android:textColor="#6F6C6C"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:background="#F3E6E6E6"
+        android:layout_gravity="center_vertical"
+        android:weightSum="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            android:tint="#009688"
+            app:srcCompat="@drawable/ic_circle_medium"/>
+
+        <TextView
+            android:id="@+id/txt_drop_end"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginRight="5dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
+            android:textColor="#6F6C6C"/>
+
+    </LinearLayout>
+
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="#F3E6E6E6"
+        android:layout_gravity="center_vertical"
+        android:weightSum="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_license_plate"/>
+
+        <TextView
+            android:id="@+id/txtCarNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginRight="4dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="R780"
+            android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_technician"/>
+
+        <TextView
+            android:id="@+id/txtNolabour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="1"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="1"
+            android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_money"/>
+
+        <TextView
+            android:id="@+id/txtTripPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="20"
+            android:textColor="#6F6C6C"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp"
+        android:background="#F3E6E6E6"
+        android:layout_gravity="center_vertical"
+        android:weightSum="3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_clock"/>
+
+        <TextView
+            android:id="@+id/txtTimeOrder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:layout_marginRight="0dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="5 mints"
+            android:textColor="#6F6C6C"/>
+
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginRight="0dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp"
+            app:srcCompat="@drawable/ic_tracking_two"/>
+
+        <TextView
+            android:id="@+id/txtTruckType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textStyle="bold"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="5TON TRUCK"
+            android:textColor="#6F6C6C"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_pay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:background="#000"
+            android:layout_weight="1"
+            android:layout_marginRight="4dp"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="PAY"
+            android:textColor="#fff"/>
+
+
+
+    </LinearLayout>
+</LinearLayout>

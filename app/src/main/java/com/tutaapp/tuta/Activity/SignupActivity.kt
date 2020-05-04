@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,7 +11,12 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.material.snackbar.Snackbar
-import com.tutaapp.tuta.model.User
+import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.R
+import com.tutaapp.tuta.Utils.SharedPrefManager
+import com.tutaapp.tuta.Utils.URLs
+import com.tutaapp.tuta.Utils.ViewDialog
+import com.tutaapp.tuta.Utils.VolleySingleton
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.json.JSONObject
 
@@ -70,7 +75,8 @@ class SignupActivity : AppCompatActivity() {
 
 
         val stringRequest = JsonObjectRequest(
-            Request.Method.POST,URLs.URL_REGISTER,jsonObject,
+            Request.Method.POST,
+            URLs.URL_REGISTER,jsonObject,
             Response.Listener { response ->
 
                 try {
@@ -129,7 +135,9 @@ class SignupActivity : AppCompatActivity() {
                     token
                 )
 
-                SharedPrefManager.getInstance(applicationContext).userLogin(user)
+                SharedPrefManager.getInstance(
+                    applicationContext
+                ).userLogin(user)
                 onSiginSuccess()
             },
             Response.ErrorListener {

@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Utils
 
 object URLs {
 
@@ -12,5 +12,6 @@ object URLs {
     val URL_GET_All_TRUCKS = "$ROOT_URL/vehicle_locations/close"
     val URL_TRIP_ESTIMATE = "$ROOT_URL/trips/estimate"
     val URL_STORE_TRIP = "$ROOT_URL/trips"
+    val URL_END_TRIP = "$ROOT_URL/trips/"
 
 }

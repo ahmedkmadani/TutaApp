@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.model
+package com.tutaapp.tuta.Model
 
 class User(
     val Id: String,

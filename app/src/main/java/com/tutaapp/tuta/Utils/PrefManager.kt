@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Utils
 
 import android.content.Context
 import android.content.SharedPreferences

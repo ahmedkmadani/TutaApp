@@ -1,22 +1,25 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Utils
 
 import android.content.Context
 import android.content.Intent
-import com.tutaapp.tuta.model.User
+import com.tutaapp.tuta.Activity.SignupActivity
+import com.tutaapp.tuta.Model.User
 
 class SharedPrefManager private constructor(context: Context) {
 
 
     val isLoggedIn: Boolean
         get() {
-            val sharedPreferences = ctx?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences = ctx?.getSharedPreferences(
+                SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return sharedPreferences?.getString(KEY_TOKEN, null) != null
         }
 
 
     val user: User
         get() {
-            val sharedPreferences = ctx?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences = ctx?.getSharedPreferences(
+                SHARED_PREF_NAME, Context.MODE_PRIVATE)
             return User(
                 sharedPreferences!!.getString(KEY_ID, null),
                 sharedPreferences!!.getString(KEY_FirstNAME, null),
@@ -39,7 +42,8 @@ class SharedPrefManager private constructor(context: Context) {
 
 
     fun userLogin(user: User) {
-        val sharedPreferences = ctx?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = ctx?.getSharedPreferences(
+            SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.putString(KEY_TOKEN, user.token)
         editor?.putString(KEY_ID, user.Id)
@@ -58,11 +62,13 @@ class SharedPrefManager private constructor(context: Context) {
 
 
     fun logout() {
-        val sharedPreferences = ctx?.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        val sharedPreferences = ctx?.getSharedPreferences(
+            SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.clear()
         editor?.apply()
-        ctx?.startActivity(Intent(ctx, SignupActivity::class.java))
+        ctx?.startActivity(Intent(
+            ctx, SignupActivity::class.java))
     }
 
     companion object {
@@ -85,7 +91,8 @@ class SharedPrefManager private constructor(context: Context) {
         @Synchronized
         fun getInstance(context: Context): SharedPrefManager {
             if (mInstance == null) {
-                mInstance = SharedPrefManager(context)
+                mInstance =
+                    SharedPrefManager(context)
             }
             return mInstance as SharedPrefManager
         }

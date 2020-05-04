@@ -1,9 +1,10 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Fargment
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.tutaapp.tuta.R
 
 class ThreeFragment : Fragment() {
 

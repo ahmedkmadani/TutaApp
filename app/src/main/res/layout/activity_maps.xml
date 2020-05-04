@@ -16,6 +16,7 @@
     <include layout="@layout/bottom_sheet" />
     <include layout="@layout/bottom_sheet_order" />
     <include layout="@layout/bottom_sheet_start_trip" />
+    <include layout="@layout/bottom_sheet_end_trip" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

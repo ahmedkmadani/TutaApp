@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Adapter
 
 import android.content.Context
 import android.util.Log

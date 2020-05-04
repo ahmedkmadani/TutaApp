@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Utils
 
 import android.content.Context
 import com.android.volley.Request
@@ -34,7 +34,8 @@ class VolleySingleton private constructor(context: Context) {
         @Synchronized
         fun getInstance(context: Context): VolleySingleton {
             if (mInstance == null) {
-                mInstance = VolleySingleton(context)
+                mInstance =
+                    VolleySingleton(context)
             }
             return mInstance as VolleySingleton
         }

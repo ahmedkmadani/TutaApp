@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Fargment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.tutaapp.tuta.adapter.TrucksAdapter
-import com.tutaapp.tuta.model.Trucks
+import com.tutaapp.tuta.Adapter.TrucksAdapter
+import com.tutaapp.tuta.Model.Trucks
+import com.tutaapp.tuta.R
 import java.util.ArrayList
 
 class ServiceFragment : Fragment() {

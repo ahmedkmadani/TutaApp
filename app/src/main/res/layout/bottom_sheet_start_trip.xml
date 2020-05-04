@@ -119,6 +119,7 @@
             android:layout_marginLeft="15dp"
             android:layout_marginTop="5dp"
             android:layout_marginRight="5dp"
+                android:layout_marginBottom="10dp"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
             android:text="Flat No 404, Skyline Apartments, Vizag - 500576"
@@ -129,15 +130,15 @@
     </LinearLayout>
 
 
-    <Button
-        android:id="@+id/btn_cancel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:background="#000"
-        android:foreground="?attr/selectableItemBackground"
-        android:text="END TRIP"
-        android:textColor="#fff" />
+<!--    <Button-->
+<!--        android:id="@+id/btn_end_trip"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="15dp"-->
+<!--        android:background="#000"-->
+<!--        android:foreground="?attr/selectableItemBackground"-->
+<!--        android:text="END TRIP"-->
+<!--        android:textColor="#fff" />-->
 
 
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Utils
 
 import android.app.Activity
 import android.app.Dialog
@@ -6,6 +6,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.view.Window
 import com.airbnb.lottie.LottieAnimationView
+import com.tutaapp.tuta.R
 
 class ViewDialog(internal var activity: Activity) {
 

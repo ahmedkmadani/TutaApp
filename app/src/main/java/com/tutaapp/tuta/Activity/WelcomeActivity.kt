@@ -1,4 +1,4 @@
-package com.tutaapp.tuta
+package com.tutaapp.tuta.Activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
+import com.tutaapp.tuta.R
+import com.tutaapp.tuta.Utils.PrefManager
 import kotlinx.android.synthetic.main.activity_welcome.view.*
 
 class WelcomeActivity : AppCompatActivity() {
@@ -45,7 +47,8 @@ class WelcomeActivity : AppCompatActivity() {
             R.layout.welcome_slide1,
             R.layout.welcome_slide2,
             R.layout.welcome_slide3,
-            R.layout.welcome_slide4)
+            R.layout.welcome_slide4
+        )
 
         makeIIntroBullets(0)
         introViewPagerAdapter = IntroScreenViewPagerAdapter()
