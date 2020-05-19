@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Activity
+package com.tutaapp.tuta.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -13,7 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.PagerAdapter
 import androidx.viewpager.widget.ViewPager
 import com.tutaapp.tuta.R
-import com.tutaapp.tuta.Utils.PrefManager
+import com.tutaapp.tuta.utils.PrefManager
 import kotlinx.android.synthetic.main.activity_welcome.view.*
 
 class WelcomeActivity : AppCompatActivity() {

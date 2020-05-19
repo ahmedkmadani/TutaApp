@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Adapter
+package com.tutaapp.tuta.adapter
 
 import android.text.Html
 import android.view.LayoutInflater
@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tutaapp.tuta.R
-import com.tutaapp.tuta.Model.Trucks
+import com.tutaapp.tuta.model.Trucks
 
 
 class TrucksAdapter(private val truckList: List<Trucks>) : RecyclerView.Adapter<TrucksAdapter.MyViewHolder>() {

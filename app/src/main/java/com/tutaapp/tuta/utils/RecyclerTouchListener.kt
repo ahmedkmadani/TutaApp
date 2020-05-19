@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Utils
+package com.tutaapp.tuta.utils
 
 import android.content.Context
 import android.view.GestureDetector

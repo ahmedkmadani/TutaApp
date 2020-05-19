@@ -1,9 +1,9 @@
-package com.tutaapp.tuta.Utils
+package com.tutaapp.tuta.utils
 
 import android.content.Context
 import android.content.Intent
-import com.tutaapp.tuta.Activity.SignupActivity
-import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.activity.SignupActivity
+import com.tutaapp.tuta.model.User
 
 class SharedPrefManager private constructor(context: Context) {
 

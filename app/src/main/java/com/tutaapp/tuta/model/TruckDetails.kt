@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Model
+package com.tutaapp.tuta.model
 
 class TrucksDetails {
     var id: Int? = null

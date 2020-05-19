@@ -19,22 +19,22 @@
                 android:value="@string/google_maps_key"/>
 
         <activity
-                android:name=".Activity.MapsActivity"
+                android:name=".activity.MapsActivity"
                 android:label="@string/title_activity_maps">
         </activity>
-        <activity android:name=".Activity.WelcomeActivity">
+        <activity android:name=".activity.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.MainActivity"/>
+        <activity android:name=".activity.MainActivity"/>
         <activity
-                android:name=".Activity.SigninActivity"
+                android:name=".activity.SigninActivity"
                 android:theme="@style/NoActionBarTheme"/>
         <activity
-                android:name=".Activity.SignupActivity"
+                android:name=".activity.SignupActivity"
                 android:theme="@style/NoActionBarTheme"/>
 
     </application>

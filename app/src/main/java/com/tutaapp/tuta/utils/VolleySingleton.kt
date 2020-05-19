@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Utils
+package com.tutaapp.tuta.utils
 
 import android.content.Context
 import com.android.volley.Request
@@ -7,10 +7,8 @@ import com.android.volley.toolbox.Volley
 
 class VolleySingleton private constructor(context: Context) {
     private var mRequestQueue: RequestQueue
-
-    // applicationContext is key, it keeps you from leaking the
-    // Activity or BroadcastReceiver if someone passes one in.
     val requestQueue: RequestQueue
+
         get() {
             if (mRequestQueue == null) {
                 mRequestQueue = Volley.newRequestQueue(mCtx?.applicationContext)

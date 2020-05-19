@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Utils
+package com.tutaapp.tuta.utils
 
 import android.app.Activity
 import android.app.Dialog

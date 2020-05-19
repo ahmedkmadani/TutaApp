@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Activity
+package com.tutaapp.tuta.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -11,12 +11,12 @@ import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
 import com.google.android.material.snackbar.Snackbar
-import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.model.User
 import com.tutaapp.tuta.R
-import com.tutaapp.tuta.Utils.SharedPrefManager
-import com.tutaapp.tuta.Utils.URLs
-import com.tutaapp.tuta.Utils.ViewDialog
-import com.tutaapp.tuta.Utils.VolleySingleton
+import com.tutaapp.tuta.utils.SharedPrefManager
+import com.tutaapp.tuta.utils.URLs
+import com.tutaapp.tuta.utils.ViewDialog
+import com.tutaapp.tuta.utils.VolleySingleton
 import kotlinx.android.synthetic.main.activity_signin.*
 import org.json.JSONObject
 

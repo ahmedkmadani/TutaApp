@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Fargment
+package com.tutaapp.tuta.fargment
 
 import android.os.Bundle
 import android.view.LayoutInflater

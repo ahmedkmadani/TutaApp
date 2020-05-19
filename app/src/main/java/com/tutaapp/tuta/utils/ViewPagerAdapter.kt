@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Utils
+package com.tutaapp.tuta.utils
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager

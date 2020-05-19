@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Activity
+package com.tutaapp.tuta.activity
 
 import android.Manifest
 import android.Manifest.permission.ACCESS_FINE_LOCATION
@@ -52,13 +52,13 @@ import com.pusher.client.connection.ConnectionEventListener
 import com.pusher.client.connection.ConnectionState
 import com.pusher.client.connection.ConnectionStateChange
 import com.pusher.client.util.HttpAuthorizer
-import com.tutaapp.tuta.Adapter.PlacesAdapter
-import com.tutaapp.tuta.Model.TrucksDetails
-import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.adapter.PlacesAdapter
+import com.tutaapp.tuta.model.TrucksDetails
+import com.tutaapp.tuta.model.User
 import com.tutaapp.tuta.R
-import com.tutaapp.tuta.Utils.SharedPrefManager
-import com.tutaapp.tuta.Utils.URLs
-import com.tutaapp.tuta.Utils.ViewDialog
+import com.tutaapp.tuta.utils.SharedPrefManager
+import com.tutaapp.tuta.utils.URLs
+import com.tutaapp.tuta.utils.ViewDialog
 import kotlinx.android.synthetic.main.bottom_sheet.*
 import kotlinx.android.synthetic.main.bottom_sheet_end_trip.*
 import kotlinx.android.synthetic.main.bottom_sheet_order.*

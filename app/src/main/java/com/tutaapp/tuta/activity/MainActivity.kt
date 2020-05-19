@@ -1,4 +1,4 @@
-package com.tutaapp.tuta.Activity
+package com.tutaapp.tuta.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,15 +12,12 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.VolleyError
 import com.android.volley.toolbox.JsonObjectRequest
-import com.tutaapp.tuta.Adapter.TrucksAdapter
-import com.tutaapp.tuta.Model.Trucks
-import com.tutaapp.tuta.Model.User
+import com.tutaapp.tuta.adapter.TrucksAdapter
+import com.tutaapp.tuta.GetVehicles
+import com.tutaapp.tuta.model.Trucks
+import com.tutaapp.tuta.model.User
 import com.tutaapp.tuta.R
-import com.tutaapp.tuta.Utils.SharedPrefManager
-import com.tutaapp.tuta.Utils.RecyclerTouchListener
-import com.tutaapp.tuta.Utils.URLs
-import com.tutaapp.tuta.Utils.ViewDialog
-import com.tutaapp.tuta.Utils.VolleySingleton
+import com.tutaapp.tuta.utils.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -29,6 +26,8 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     internal lateinit var viewDialog: ViewDialog
+    internal lateinit var GetVehicles: GetVehicles
+
     internal lateinit var user: User
 
     private var truckList: List<Trucks>? = null
@@ -43,12 +42,12 @@ class MainActivity : AppCompatActivity() {
 
         viewDialog = ViewDialog(this)
 
-
         val user = SharedPrefManager.getInstance(this).user
 
         val FirstName  = user.FirstName
         val LastName = user.LastName
         val token = user.token
+
 
 
         UserName.text = "Hello $FirstName $LastName !!!"
@@ -57,6 +56,7 @@ class MainActivity : AppCompatActivity() {
         mAdapter = TrucksAdapter(truck)
         truckList = ArrayList()
 
+        mAdapter!!.notifyDataSetChanged()
 
         recyclerview!!.adapter = mAdapter
         recyclerview!!.setHasFixedSize(true)
@@ -69,6 +69,7 @@ class MainActivity : AppCompatActivity() {
         recyclerview!!.itemAnimator = DefaultItemAnimator()
         recyclerview!!.adapter = mAdapter
 
+
         getTrucks(token)
 
         recyclerview!!.addOnItemTouchListener(
@@ -78,7 +79,7 @@ class MainActivity : AppCompatActivity() {
                 object :
                     RecyclerTouchListener.ClickListener {
                     override fun onLongClick(view: View?, position: Int) {
-                        val truck = truck.get(position)
+                        val truck = truck[position]
                         val intent = Intent(baseContext, MapsActivity::class.java)
 
                         intent.putExtra("TRUCK_ID", truck.Id.toString())
